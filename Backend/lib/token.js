@@ -6,3 +6,4 @@ const generateToken = (userId) => {
          {expiresIn: '7d'}, // Token expires in 7 days
 );
 }
+export default generateToken;

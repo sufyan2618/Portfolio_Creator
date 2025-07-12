@@ -1,13 +1,12 @@
-import express from 'express';
 import bcrypt from 'bcryptjs';
-import User from '../models/user.model';
+import generateToken from '../lib/token.js';
+import User from '../models/user.model.js';
 
 
 
 export const Signup = async (req, res) => {
     try {
         const { name, email, password } = req.body;
-
         if (!name || !email || !password) {
             return res.status(400).json({ message: 'All fields are required' });
         }
