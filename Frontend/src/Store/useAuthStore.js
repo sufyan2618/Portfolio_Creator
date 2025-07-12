@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 
 const useAuthStore = create((set) => ({
     authUser: null,
+    isSavingData: false,
     isLoggingIn: false,
     isSigningUp: false,
     isLoggingOut: false,
@@ -69,6 +70,21 @@ const useAuthStore = create((set) => ({
         }
 
     },
+    SaveData: async (data) => {
+        set({ isSavingData: true });
+        try {
+            const response = await axiosInstance.post('/info/update-info', data);
+            toast.success('Information saved successfully');
+            return response.data; // Return the saved data to the component
+        } catch (error) {
+            console.error('SaveData error:', error);
+            toast.error(`Failed to save data. ${error.response?.data?.message || 'An error occurred.'}`);
+            throw error; // Propagate the error to the component
+        }
+        finally {
+            set({ isSavingData: false });
+        }
+    }
 
 
 

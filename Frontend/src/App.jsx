@@ -5,7 +5,7 @@ import Designs from './pages/Designs'
 import { Toaster } from 'react-hot-toast'
 import Signup from './pages/Signup'
 import Signin from './pages/Signin'
-
+import InfoPage from './pages/InfoPage'
 function App() {
 
   return (
@@ -15,6 +15,7 @@ function App() {
       <Route path="/designs" element={<Designs/>}/>
       <Route path='/signup'element={<Signup/>}/>
       <Route path='/signin' element={<Signin/>}/>
+      <Route path='/portfolio_info' element={<InfoPage/>}/>
     </Routes>
     <Toaster/>
     </>

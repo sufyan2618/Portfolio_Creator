@@ -7,6 +7,7 @@ import connectDb from './lib/connectDb.js';
 import Authrouter from './routes/auth.router.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import InfoRouter from './routes/info.router.js';
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -19,6 +20,8 @@ app.use(cors({
 
 
 app.use('/api/auth', Authrouter);
+app.use('/api/info', InfoRouter);
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
