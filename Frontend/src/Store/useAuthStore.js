@@ -73,7 +73,7 @@ const useAuthStore = create((set) => ({
     SaveData: async (data, id) => {
         set({ isSavingData: true });
         try {
-            const response = await axiosInstance.post('/info/update-info',{id, data});
+            const response = await axiosInstance.post('/info/store-info',{id, data});
             toast.success('Information saved successfully');
             return response.data; // Return the saved data to the component
         } catch (error) {

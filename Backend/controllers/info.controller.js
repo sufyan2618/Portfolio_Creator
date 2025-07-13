@@ -47,7 +47,7 @@ export const StoreInfo = async (req, res) => {
     }
 };
 
-export const UpdateInfo = async () => {
+export const UpdateInfo = async (req, res) => {
     try {
         const { id, data } = req.body;
 

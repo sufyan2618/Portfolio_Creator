@@ -6,7 +6,7 @@ import auth from '../middleware/auth.middleware.js';
 const InfoRouter = express.Router();
 // Route to get information
 
-InfoRouter.post('/update-info', auth, StoreInfo);
+InfoRouter.post('/store-info', auth, StoreInfo);
 InfoRouter.post('/update-info', auth, UpdateInfo);
 InfoRouter.get('/:id', auth, GetInfo);
 
