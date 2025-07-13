@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useAuthStore from '../store/useAuthStore';
+import useAuthStore from '../Store/useAuthStore';
 import { Navigate } from 'react-router';
 import { ClipLoader } from 'react-spinners';
 

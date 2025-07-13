@@ -7,8 +7,6 @@ const Profile = () => {
     const {userInfo} = useAuthStore();
     const navigate = useNavigate();
     
-    console.log(userInfo);
-
 
     const handleUpdataRoute = () => {
         navigate('/update_info');
@@ -21,6 +19,13 @@ const Profile = () => {
             <h1 className="text-2xl font-bold text-center mb-6">Profile</h1>
             <p className="text-gray-700 text-center mb-4">This is your profile page.</p>
             <p className="text-gray-500 text-center">More features coming soon!</p>
+            <div className="mt-6">
+                <h2 className="text-lg font-semibold mb-2">User Information</h2>
+                <p className="text-gray-700">Name: {userInfo?.personalInfo?.name || 'N/A'}</p>
+                <p className="text-gray-700">Email: {userInfo?.email || 'N/A'}</p>
+                <p className="text-gray-700">Bio: {userInfo?.about || 'N/A'}</p>
+                <p className="text-gray-700">Profile Picture: {userInfo?.profilePicture || 'N/A'}</p>
+            </div>
             <button onClick={handleUpdataRoute} className='border text-center p-1'>Update You profile</button>
             </div>
         </div>

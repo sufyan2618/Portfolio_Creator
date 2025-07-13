@@ -1,24 +1,39 @@
 import React from 'react'
 import useAuthStore from '../Store/useAuthStore';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const DesignCard = () => {
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const {authUser, userInfo} = useAuthStore();
+  const { authUser, GetPortfolioPage, isCreatingPortfolio } = useAuthStore();
+  const id = authUser?._id || '';
 
-    const handleStaticRouting = () => {
+  const handleStaticRouting = () => {
     // Navigate to the design details page
     window.open('/designs/design1/index.html', '_blank')
-    }
+  }
 
-    const handleDynamicRouting = () => {
-      /* we will implement it later */
+  const handleDynamicRouting = async () => {
+    const htmlString = await GetPortfolioPage(id, 'design1');
+    try {
+
+      if (typeof htmlString !== 'string') {
+        throw new Error("Received invalid data from the server.");
+      }
+
+      const blob = new Blob([htmlString], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+    } catch (error) {
+      console.error('Error opening design:', error);
+      toast.error('Failed to open design. Please try again later.');
     }
-    const handleLoginRouting = () => {
-      navigate('/signin');
-    }
+  }
+  const handleLoginRouting = () => {
+    navigate('/signin');
+  }
 
 
   return (
@@ -33,15 +48,15 @@ const DesignCard = () => {
         A brief description of the design goes here. It should be concise and informative.
       </p>
       <div className='flex justify-between items-center'>
-      <button onClick={handleStaticRouting} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
-        View Design
-      </button>  
-      {authUser ? (<button onClick={handleDynamicRouting} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
-        Use this Design
-      </button>) : (<button onClick={handleLoginRouting} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
-        Login to use this Design
-      </button>)}
-        </div>   
+        <button onClick={handleStaticRouting} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
+          View Design
+        </button>
+        {authUser ? (<button onClick={handleDynamicRouting} disabled={isCreatingPortfolio} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
+          {isCreatingPortfolio ? 'Loading...' : 'Use this Design'}
+        </button>) : (<button onClick={handleLoginRouting} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
+          Login to use this Design
+        </button>)}
+      </div>
     </div>
   )
 }

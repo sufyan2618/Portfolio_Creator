@@ -36,7 +36,7 @@ function App() {
     fetchData();
     fetchAuth();
   }
-  , [checkAuth, authUser, GetInfo]);
+  , [checkAuth, authUser]);
 
 
   return (

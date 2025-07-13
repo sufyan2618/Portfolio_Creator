@@ -1,5 +1,5 @@
 import express from 'express';
-import { StoreInfo, UpdateInfo, GetInfo } from '../controllers/info.controller.js';
+import { StoreInfo, UpdateInfo, GetInfo, GetPortfolioPage } from '../controllers/info.controller.js';
 import auth from '../middleware/auth.middleware.js';
 
 
@@ -9,6 +9,8 @@ const InfoRouter = express.Router();
 InfoRouter.post('/store-info', auth, StoreInfo);
 InfoRouter.post('/update-info', auth, UpdateInfo);
 InfoRouter.get('/:id', auth, GetInfo);
+InfoRouter.get('/portfolio/:userId/:designId', auth, GetPortfolioPage);
+
 
 
 export default InfoRouter;
