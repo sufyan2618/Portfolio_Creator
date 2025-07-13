@@ -129,11 +129,6 @@ const useAuthStore = create((set) => ({
             set({ isGettingInfo: false });
         }
     }
-
-
-
-
-
 })
 )
 export default useAuthStore;
