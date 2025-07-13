@@ -37,9 +37,9 @@ const initialState = {
   additionalInfo: ''
 };
 
-const InfoPage = () => {
+const UpdateInfoPage = () => {
   const [formData, setFormData] = useState(initialState);
-  const {SaveData, authUser} = useAuthStore();
+  const {UpdateInfo, authUser} = useAuthStore();
   const id = authUser?._id || null;
   // Handle simple input changes
   const handleChange = (e) => {
@@ -123,9 +123,9 @@ const InfoPage = () => {
       additionalInfo: formData.additionalInfo
     };
 
-    const res = await SaveData(dataToSend, id);
+    const res = await UpdateInfo(dataToSend, id);
     if(res){
-        navigate('/designs');
+        navigate(`/profile/:${id}`);
     }
   };
 
@@ -281,4 +281,4 @@ const InfoPage = () => {
   );
 };
 
-export default InfoPage;
+export default UpdateInfoPage;

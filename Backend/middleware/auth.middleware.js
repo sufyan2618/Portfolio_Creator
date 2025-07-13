@@ -5,15 +5,15 @@ const auth = async (req, res, next) => {
     try {
         const token = req.cookies.token
         if (!token) {
-            return res.status(401).json({ message: 'Unauthorized' })
+            return res.status(401).json({ message: 'Unauthorizedhel' })
         }
         const decoded = await jwt.verify(token, process.env.JWT_SECRET)
         if (!decoded) {
-            return res.status(401).json({ message: 'Unauthorized' })
+            return res.status(401).json({ message: 'Unauthorizeddec' })
         }
-        const user = await User.findById(decoded.id).select("-password");
+        const user = await User.findById(decoded.userId).select("-password");
         if (!user) {
-            return res.status(401).json({ error: "Unauthorized" });
+            return res.status(401).json({ error: "Unauthorizeduse" });
         }
         req.user = user;
         next();

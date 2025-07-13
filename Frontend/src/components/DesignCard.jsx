@@ -2,9 +2,13 @@ import React from 'react'
 
 const DesignCard = () => {
 
-    const handleRouting = () => {
+    const handleStaticRouting = () => {
     // Navigate to the design details page
     window.open('/designs/design1/index.html', '_blank')
+    }
+
+    const handleDynamicRouting = () => {
+      /* we will implement it later */
     }
 
 
@@ -19,9 +23,14 @@ const DesignCard = () => {
       <p className="text-gray-600 mb-4">
         A brief description of the design goes here. It should be concise and informative.
       </p>
-      <button onClick={handleRouting} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
+      <div className='flex justify-between items-center'>
+      <button onClick={handleStaticRouting} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
         View Design
-      </button>     
+      </button>  
+      <button onClick={handleDynamicRouting} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
+        Use this Design
+      </button>
+        </div>   
     </div>
   )
 }
