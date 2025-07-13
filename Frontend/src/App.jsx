@@ -13,7 +13,7 @@ import useAuthStore from './Store/useAuthStore'
 import { useEffect } from 'react'
 function App() {
 
-  const {authUser, checkAuth} = useAuthStore()
+  const {authUser, checkAuth, GetInfo} = useAuthStore()
 
 
   useEffect(() => {
@@ -24,10 +24,19 @@ function App() {
         console.error('Error checking authentication:', error);
       }
     };
-
+    const fetchData = async () => {
+      if (authUser) {
+        try {
+          await GetInfo(authUser._id);
+        } catch (error) {
+          console.error('Error fetching user info:', error);
+        }
+      }
+    }
+    fetchData();
     fetchAuth();
   }
-  , [checkAuth]);
+  , [checkAuth, authUser, GetInfo]);
 
 
   return (

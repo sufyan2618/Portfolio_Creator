@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import useAuthStore from '../Store/useAuthStore'
 import { useNavigate } from 'react-router-dom'
 const Header = () => {
-    const { authUser, Logout, } = useAuthStore()
+    const { authUser, Logout, userInfo } = useAuthStore()
     const letter = authUser?.name?.charAt(0)?.toUpperCase() || '';
     const id = authUser?._id || '';
     const navigate = useNavigate();
@@ -31,7 +31,11 @@ const Header = () => {
                 <div className="flex space-x-4">
                     <Link to="/" className="text-white text-lg font-bold">Home</Link>
                     <Link to="/designs" className="text-white text-lg font-bold">Designs</Link>
-                    <Link to={"/portfolio_info"} className="text-white text-lg font-bold">Complete you info</Link>
+                    {authUser && userInfo ? (
+                        <Link to="/update_info" className="text-white text-lg font-bold">Update Info</Link>
+                    ) : (
+                        <Link to="/portfolio_info" className="text-white text-lg font-bold">Insert Info</Link>
+                    )}
                     {authUser ? (
                         <>
                         <button onClick={handleProfile} className='text-white border-2 rounded-lg h-8 w-8 flex justify-center items-center cursor-pointer'>{letter}</button>

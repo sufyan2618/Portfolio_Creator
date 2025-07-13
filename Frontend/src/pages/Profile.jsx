@@ -1,8 +1,13 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import useAuthStore from '../Store/useAuthStore';
 
 const Profile = () => {
+
+    const {userInfo} = useAuthStore();
     const navigate = useNavigate();
+    
+    console.log(userInfo);
 
 
     const handleUpdataRoute = () => {

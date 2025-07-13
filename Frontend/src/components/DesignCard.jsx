@@ -1,6 +1,12 @@
 import React from 'react'
+import useAuthStore from '../Store/useAuthStore';
+import { useNavigate } from 'react-router-dom';
 
 const DesignCard = () => {
+
+    const navigate = useNavigate();
+
+    const {authUser, userInfo} = useAuthStore();
 
     const handleStaticRouting = () => {
     // Navigate to the design details page
@@ -9,6 +15,9 @@ const DesignCard = () => {
 
     const handleDynamicRouting = () => {
       /* we will implement it later */
+    }
+    const handleLoginRouting = () => {
+      navigate('/signin');
     }
 
 
@@ -27,9 +36,11 @@ const DesignCard = () => {
       <button onClick={handleStaticRouting} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
         View Design
       </button>  
-      <button onClick={handleDynamicRouting} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
+      {authUser ? (<button onClick={handleDynamicRouting} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
         Use this Design
-      </button>
+      </button>) : (<button onClick={handleLoginRouting} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
+        Login to use this Design
+      </button>)}
         </div>   
     </div>
   )

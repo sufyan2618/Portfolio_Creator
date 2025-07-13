@@ -4,6 +4,8 @@ import toast from 'react-hot-toast';
 
 const useAuthStore = create((set) => ({
     authUser: null,
+    userInfo: null,
+    isGettingInfo: false,
     isSavingData: false,
     isLoggingIn: false,
     isSigningUp: false,
@@ -99,7 +101,22 @@ const useAuthStore = create((set) => ({
         } finally {
             set({ isSavingData: false });
         }
+    },
+
+    GetInfo: async (id) => {
+        set({ isGettingInfo: true });
+        try {
+            const response = await axiosInstance.get(`/info/${id}`);
+            set({ userInfo: response.data }); // Store the fetched info in the store
+            return response.data; // Return the fetched data to the component
+        } catch (error) {
+            console.error('GetInfo error:', error);
+            throw error; // Propagate the error to the component
+        } finally {
+            set({ isGettingInfo: false });
+        }
     }
+
 
 
 
