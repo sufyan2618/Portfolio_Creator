@@ -43,9 +43,6 @@
             margin: auto;
         }
 
-
-
-
         /*---------------------------Header---------------------------*/
 
         .header-area {
@@ -67,7 +64,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            /* padding-bottom: 2rem; */
         }
 
         .logo {
@@ -105,6 +101,17 @@
             align-items: center;
         }
 
+        .download-btn {
+            background-color: #fed700;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            margin-left: 20px;
+            transition: background-color .3s, color .3s;
+        }
+
         .header ul li {
             margin: 0 15px;
         }
@@ -124,11 +131,118 @@
 
         .header .menu_icon {
             color: #fff;
-            font-size: 18px;
+            font-size: 24px;
             cursor: pointer;
             display: none;
+            padding: 10px 5px 10px 10px;
+            transition: color 0.3s;
         }
 
+        .header .menu_icon:hover {
+            color: #fed700;
+        }
+
+        /*---------------------------Mobile Drawer---------------------------*/
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100vh;
+            background-color: #202020;
+            border-left: 2px solid #fed700;
+            z-index: 1000;
+            transition: right 0.3s ease;
+            padding: 20px;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .drawer.open {
+            right: 0;
+        }
+
+        .drawer .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: #fff;
+            cursor: pointer;
+            padding: 10px;
+            transition: color 0.3s;
+        }
+
+        .drawer .close-btn:hover {
+            color: #fed700;
+        }
+
+        .drawer ul {
+            margin-top: 80px;
+        }
+
+        .drawer ul li {
+            margin: 20px 0;
+            border-bottom: 1px solid #333;
+            padding-bottom: 15px;
+        }
+
+        .drawer ul li:last-child {
+            border-bottom: none;
+        }
+
+        .drawer ul li a {
+            color: #fff;
+            font-size: 18px;
+            text-transform: capitalize;
+            transition: color 0.3s;
+            display: block;
+            padding: 10px 0;
+        }
+
+        .drawer ul li a:hover {
+            color: #fed700;
+        }
+
+        .drawer ul li a.active {
+            color: #fed700;
+        }
+
+        .drawer-download-btn {
+            background-color: #fed700;
+            color: #333 !important;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: background-color .3s, color .3s;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .drawer-download-btn:hover {
+            background-color: #333;
+            color: #fed700 !important;
+        }
+
+        /* Overlay for drawer */
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .drawer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
 
         /*---------------------------HomePage--------------------------*/
 
@@ -194,8 +308,6 @@
             transform: rotate(360deg);
         }
 
-
-
         /*---------------------------About---------------------------*/
 
         .about-area {
@@ -249,7 +361,6 @@
             margin-bottom: 0;
         }
 
-
         /*---------------------------Button---------------------------*/
 
         .btn-group {
@@ -271,7 +382,6 @@
         .btn.active {
             border-color: #fed700;
         }
-
 
         /*---------------------------Education & Internship---------------------------*/
 
@@ -306,7 +416,6 @@
         }
 
         .education-content .row .timeline {
-            /* background-color:#e5e5e5; */
             padding: 30px 15px;
             border: 1px solid #e5e5e5;
             border-radius: 10px;
@@ -368,12 +477,9 @@
             text-align: justify;
         }
 
-
-
         /*---------------------------Projects---------------------------*/
         .project-content {
             padding: 90px 0;
-            /* color:#fff;  */
         }
 
         .project-title {
@@ -400,7 +506,6 @@
         }
 
         .project {
-            /* padding: 30px 15px; */
             color: #e5e5e5;
             border: 2px solid #e5e5e5;
             border-radius: 10px;
@@ -435,8 +540,6 @@
         .project:hover {
             border-color: #fed700;
         }
-
-
 
         /*---------------------------Contact Me---------------------------*/
         .contact-content {
@@ -489,11 +592,6 @@
             display: block;
         }
 
-
-
-
-
-
         /*---------------------------Footer---------------------------*/
         .footer {
             max-width: 950px;
@@ -517,9 +615,6 @@
             font-size: 12px;
         }
 
-
-
-
         /*------------------- Responsive Design on small screen -------------------*/
 
         /* Medium layout */
@@ -540,15 +635,12 @@
             }
         }
 
-
-
         /* tablet layout */
         @media only screen and (min-width:768px) and (max-width:999px) {
             .container {
                 width: 750px;
             }
         }
-
 
         /* Mobile Layout */
         @media only screen and (max-width:767px) {
@@ -605,6 +697,29 @@
                 margin-bottom: 30px;
             }
 
+            /* Drawer responsive adjustments */
+            .drawer {
+                width: 280px;
+            }
+
+            .signature {
+                font-size: 20px;
+            }
+        }
+
+        /* Extra small devices */
+        @media only screen and (max-width:480px) {
+            .container {
+                width: 300px;
+            }
+
+            .drawer {
+                width: 250px;
+            }
+
+            .signature {
+                font-size: 18px;
+            }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -613,177 +728,242 @@
 
 <body>
 
+    <!-- Drawer Overlay -->
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <!-- Mobile Drawer -->
+    <div class="drawer" id="drawer">
+        <div class="close-btn" id="closeDrawer">
+            <i class="fa fa-times"></i>
+        </div>
+        <ul>
+            <li><a href="#home" class="drawer-link">Home</a></li>
+            {{#if about}}<li><a href="#about" class="drawer-link">About</a></li>{{/if}}
+            {{#if hasEducationOrExperience}}<li><a href="#education" class="drawer-link">Experience</a></li>{{/if}}
+            {{#if projects}}<li><a href="#projects" class="drawer-link">Projects</a></li>{{/if}}
+            <li><a href="#contact" class="drawer-link">Contact</a></li>
+            <li><a href="#" id="drawerDownloadBtn" class="drawer-download-btn">Download HTML</a></li>
+        </ul>
+    </div>
+
     <!-- Header -->
     <header class="header-area">
-      <div class="container">
-        <div class="header">
-          <a href="#home" class="logo">
-            {{#if personalInfo.fullName}}
-              <h2 class="signature">{{ personalInfo.fullName }}</h2>
-              <i class="fa fa-bolt"></i>
-            {{/if}}
-          </a>
-          <ul class="navbar">
-            <li><a href="#home">Home</a></li>
-            {{#if about}}<li><a href="#about">About</a></li>{{/if}}
-            {{#if hasEducationOrExperience}}<li><a href="#education">Experience</a></li>{{/if}}
-            {{#if projects}}<li><a href="#projects">Projects</a></li>{{/if}}
-            <li><a href="#contact">Contact</a></li>
-          </ul>
+        <div class="container">
+            <div class="header">
+                <a href="#home" class="logo">
+                    {{#if personalInfo.fullName}}
+                    <h2 class="signature">{{ personalInfo.fullName }}</h2>
+                    <i class="fa fa-bolt"></i>
+                    {{/if}}
+                </a>
+                <ul class="navbar">
+                    <li><a href="#home">Home</a></li>
+                    {{#if about}}<li><a href="#about">About</a></li>{{/if}}
+                    {{#if hasEducationOrExperience}}<li><a href="#education">Experience</a></li>{{/if}}
+                    {{#if projects}}<li><a href="#projects">Projects</a></li>{{/if}}
+                    <li><a href="#contact">Contact</a></li>
+                    <a href="#" id="downloadBtn" class="download-btn">Download HTML</a>
+                </ul>
+                <div class="menu_icon" id="menuIcon">
+                    <i class="fa fa-bars"></i>
+                </div>
+            </div>
         </div>
-      </div>
     </header>
-  
+
     <!-- Home -->
     <div class="FirstElement" id="home">
-      {{#if personalInfo.profilePictureUrl}}
+        {{#if personalInfo.profilePictureUrl}}
         <div class="profile-photo">
-          <img src="{{ personalInfo.profilePictureUrl }}" alt="profile picture" />
+            <img src="{{ personalInfo.profilePictureUrl }}" alt="profile picture" />
         </div>
-      {{/if}}
-      <div class="profile-text">     
-        <h5>Hi I'm </h5><br />
-        <h1>{{ personalInfo.fullName }}</h1><br />
-        {{#if about}}<p>{{ about }}</p>{{/if}}
-        <div class="btn-group">
-          {{#if personalInfo.resumeUrl}}<a href="{{ personalInfo.resumeUrl }}" class="btn active">Download CV</a>{{/if}}
-          {{#if personalInfo.email}}<a href="mailto:{{ personalInfo.email }}" class="btn">Contact</a>{{/if}}
+        {{/if}}
+        <div class="profile-text">
+            <h5>Hi I'm </h5><br />
+            <h1>{{ personalInfo.fullName }}</h1><br />
+            {{#if about}}<p>{{ about }}</p>{{/if}}
+            <div class="btn-group">
+                {{#if personalInfo.resumeUrl}}<a href="{{ personalInfo.resumeUrl }}" class="btn active">Download CV</a>{{/if}}
+                {{#if personalInfo.email}}<a href="mailto:{{ personalInfo.email }}" class="btn">Contact</a>{{/if}}
+            </div>
+            <div class="social">
+                {{#if personalInfo.email}}<a href="mailto:{{ personalInfo.email }}"><i class="fa fa-envelope"></i></a>{{/if}}
+                {{#if personalInfo.github}}<a href="{{ personalInfo.github }}"><i class="fa-brands fa-github"></i></a>{{/if}}
+                {{#if personalInfo.linkedin}}<a href="{{ personalInfo.linkedin }}"><i class="fa-brands fa-linkedin"></i></a>{{/if}}
+            </div>
         </div>
-        <div class="social">
-          {{#if personalInfo.email}}<a href="mailto:{{ personalInfo.email }}"><i class="fa fa-envelope"></i></a>{{/if}}
-          {{#if personalInfo.github}}<a href="{{ personalInfo.github }}"><i class="fa-brands fa-github"></i></a>{{/if}}
-          {{#if personalInfo.linkedin}}<a href="{{ personalInfo.linkedin }}"><i class="fa-brands fa-linkedin"></i></a>{{/if}}
-        </div>
-      </div>
     </div>
-  
+
     <!-- About -->
     {{#if about}}
     <section class="about-area" id="about">
-      <div class="container">
-        <div class="about">
-          <div class="about-content">
-            <h4>About Me</h4>
-            <p>{{about}}</p>
-          </div>
-          <div class="about-skills">
-            <ul>
-              {{#if personalInfo.fullName}}<li>Name: {{ personalInfo.fullName }}</li>{{/if}}
-              {{#if personalInfo.address}}<li>From: {{ personalInfo.address }}</li>{{/if}}
-              {{#if personalInfo.email}}<li>Email: {{ personalInfo.email }}</li>{{/if}}
-            </ul>
-          </div>
+        <div class="container">
+            <div class="about">
+                <div class="about-content">
+                    <h4>About Me</h4>
+                    <p>{{about}}</p>
+                </div>
+                <div class="about-skills">
+                    <ul>
+                        {{#if personalInfo.fullName}}<li>Name: {{ personalInfo.fullName }}</li>{{/if}}
+                        {{#if personalInfo.address}}<li>From: {{ personalInfo.address }}</li>{{/if}}
+                        {{#if personalInfo.email}}<li>Email: {{ personalInfo.email }}</li>{{/if}}
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
     </section>
     {{/if}}
-  
+
     <!-- Education & Internship -->
     {{#if hasEducationOrExperience}}
     <section class="education-content" id="education">
-      <div class="container">
-        <div class="row">
-          {{#if education}}
-          <div class="education">
-            <h3 class="title">Education</h3>
+        <div class="container">
             <div class="row">
-              <div class="timeline-box">
-                <div class="timeline">
-                  {{#each education}}
-                  <div class="timeline-item">
-                    <div class="circle-dot"></div>
-                    <h3 class="timeline-title">{{ this.degree }}</h3>
-                    <h4 class="timeline-title">{{ this.institution }}</h4>
-                    <h4 class="timeline-title"><i class="fa fa-calendar"></i> {{ this.startDate }} - {{ this.endDate }}</h4>
-                    {{#if this.description}}<p class="timeline-text">{{ this.description }}</p>{{/if}}
-                  </div>
-                  {{/each}}
+                {{#if education}}
+                <div class="education">
+                    <h3 class="title">Education</h3>
+                    <div class="row">
+                        <div class="timeline-box">
+                            <div class="timeline">
+                                {{#each education}}
+                                <div class="timeline-item">
+                                    <div class="circle-dot"></div>
+                                    <h3 class="timeline-title">{{ this.degree }}</h3>
+                                    <h4 class="timeline-title">{{ this.institution }}</h4>
+                                    <h4 class="timeline-title"><i class="fa fa-calendar"></i> {{ this.startDate }} - {{ this.endDate }}</h4>
+                                    {{#if this.description}}<p class="timeline-text">{{ this.description }}</p>{{/if}}
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          {{/if}}
+                {{/if}}
 
-          {{#if workExperience}}
-          <div class="internship">
-            <h3 class="title">Experience</h3>
-            <div class="row">
-              <div class="timeline-box">
-                <div class="timeline">
-                  {{#each workExperience}}
-                  <div class="timeline-item">
-                    <div class="circle-dot"></div>
-                    <h3 class="timeline-title">{{ this.position }}</h3>
-                    <h4 class="timeline-title">{{ this.company }}</h4>
-                    <h4 class="timeline-title"><i class="fa fa-calendar"></i> {{ this.startDate }} - {{#if this.currentlyWorking}}Present{{else}}{{this.endDate}}{{/if}}</h4>
-                    {{#if this.description}}<li class="timeline-text">{{ this.description }}</li>{{/if}}
-                  </div>
-                  {{/each}}
+                {{#if workExperience}}
+                <div class="internship">
+                    <h3 class="title">Experience</h3>
+                    <div class="row">
+                        <div class="timeline-box">
+                            <div class="timeline">
+                                {{#each workExperience}}
+                                <div class="timeline-item">
+                                    <div class="circle-dot"></div>
+                                    <h3 class="timeline-title">{{ this.position }}</h3>
+                                    <h4 class="timeline-title">{{ this.company }}</h4>
+                                    <h4 class="timeline-title"><i class="fa fa-calendar"></i> {{ this.startDate }} - {{#if this.currentlyWorking}}Present{{else}}{{this.endDate}}{{/if}}</h4>
+                                    {{#if this.description}}<li class="timeline-text">{{ this.description }}</li>{{/if}}
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
+                {{/if}}
             </div>
-          </div>
-          {{/if}}
         </div>
-      </div>
     </section>
     {{/if}}
-  
+
     <!-- Projects -->
     {{#if projects}}
     <section class="project-content" id="projects">
-      <div class="container">
-        <div class="project-title">
-          <h4>My Projects</h4>
-          <p>Explore the solutions I've built</p>
+        <div class="container">
+            <div class="project-title">
+                <h4>My Projects</h4>
+                <p>Explore the solutions I've built</p>
+            </div>
+            <div class="projects">
+                {{#each projects}}
+                <div class="project">
+                    <i class="fa fa-briefcase"></i>
+                    <h4>{{ this.title }}</h4>
+                    <p>{{ this.description }}</p>
+                </div>
+                {{/each}}
+            </div>
         </div>
-        <div class="projects">
-          {{#each projects}}
-          <div class="project">
-            <i class="fa fa-briefcase"></i>
-            <h4>{{ this.title }}</h4>
-            <p>{{ this.description }}</p>
-          </div>
-          {{/each}}
-        </div>
-      </div>
     </section>
     {{/if}}
-  
+
     <!-- Contact -->
     <section class="contact-content" id="contact">
-      <div class="container">
-        <div class="contact-title">
-          <h4>Contact Me</h4>
-          <p>Let’s connect and collaborate</p>
+        <div class="container">
+            <div class="contact-title">
+                <h4>Contact Me</h4>
+                <p>Let's connect and collaborate</p>
+            </div>
+            <div class="contact">
+                <form name="submitToGoogleSheet">
+                    <input type="text" name="NAME" placeholder="Name" required />
+                    <input type="email" name="EMAIL" placeholder="Email" required />
+                    <input type="text" name="SUBJECT" placeholder="Subject" />
+                    <textarea name="MESSAGE" placeholder="Message"></textarea>
+                    <input type="submit" value="Send Message" class="submit" />
+                </form>
+                <span id="msg"></span>
+            </div>
         </div>
-        <div class="contact">
-          <form name="submitToGoogleSheet">
-            <input type="text" name="NAME" placeholder="Name" required />
-            <input type="email" name="EMAIL" placeholder="Email" required />
-            <input type="text" name="SUBJECT" placeholder="Subject" />
-            <textarea name="MESSAGE" placeholder="Message"></textarea>
-            <input type="submit" value="Send Message" class="submit" />
-          </form>
-          <span id="msg"></span>
-        </div>
-      </div>
     </section>
-  
-   
-  
+
     <!-- Footer -->
     <footer class="footer">
-      <small class="message">Thanks for visiting and happy coding!</small>
-      <small class="copyright">&copy; Copyright {{ currentYear }}. All rights reserved.</small>
+        <small class="message">Thanks for visiting and happy coding!</small>
+        <small class="copyright">&copy; Copyright {{ currentYear }}. All rights reserved.</small>
     </footer>
 
-     <!-- Scripts -->
+    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
     <script>
         $(document).ready(function () {
+            // Mobile drawer functionality
+            const menuIcon = document.getElementById('menuIcon');
+            const drawer = document.getElementById('drawer');
+            const closeDrawer = document.getElementById('closeDrawer');
+            const drawerOverlay = document.getElementById('drawerOverlay');
+            const drawerLinks = document.querySelectorAll('.drawer-link');
+
+            // Open drawer
+            menuIcon.addEventListener('click', function() {
+                drawer.classList.add('open');
+                drawerOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            });
+
+            // Close drawer
+            function closeDrawerMenu() {
+                drawer.classList.remove('open');
+                drawerOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto'; // Enable scrolling
+            }
+
+            closeDrawer.addEventListener('click', closeDrawerMenu);
+            drawerOverlay.addEventListener('click', closeDrawerMenu);
+
+            // Close drawer when clicking on links
+            drawerLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    closeDrawerMenu();
+                    
+                    var target = $(this).attr("href");
+                    
+                    if (target === "#home") {
+                        $("html, body").animate({ scrollTop: 0 }, 500);
+                    } else {
+                        var offset = $(target).offset().top - 40;
+                        $("html, body").animate({ scrollTop: offset }, 500);
+                    }
+                    
+                    // Update active states
+                    $(".header ul li a, .drawer-link").removeClass("active");
+                    $(this).addClass("active");
+                    $(".header ul li a[href='" + target + "']").addClass("active");
+                });
+            });
 
             //sticky header
             $(window).scroll(function () {
@@ -807,27 +987,16 @@
                 }
 
                 if (target === "#home") {
-                    $("html, body").animate(
-                        {
-                            scrollTop: 0
-                        },
-                        500
-                    );
+                    $("html, body").animate({ scrollTop: 0 }, 500);
                 } else {
                     var offset = $(target).offset().top - 40;
-
-                    $("html, body").animate(
-                        {
-                            scrollTop: offset
-                        },
-                        500
-                    );
+                    $("html, body").animate({ scrollTop: offset }, 500);
                 }
 
-                $(".header ul li a").removeClass("active");
+                $(".header ul li a, .drawer-link").removeClass("active");
                 $(this).addClass("active");
+                $(".drawer-link[href='" + target + "']").addClass("active");
             });
-
 
             //Initial content revealing js
             ScrollReveal({
@@ -874,8 +1043,8 @@
 
             // Checking if scroll position is at the top of the page
             if (scrollPosition === 0) {
-                $(".header ul li a").removeClass("active");
-                $(".header ul li a[href='#home']").addClass("active");
+                $(".header ul li a, .drawer-link").removeClass("active");
+                $(".header ul li a[href='#home'], .drawer-link[href='#home']").addClass("active");
                 return;
             }
 
@@ -889,14 +1058,55 @@
                     scrollPosition >= offset - 40 &&
                     scrollPosition < offset + height - 40
                 ) {
-                    $(".header ul li a").removeClass("active");
-                    $(".header ul li a[href='#" + target + "']").addClass("active");
+                    $(".header ul li a, .drawer-link").removeClass("active");
+                    $(".header ul li a[href='#" + target + "'], .drawer-link[href='#" + target + "']").addClass("active");
                 }
             });
         }
 
+        // Download functionality for both buttons
+        function downloadHTML() {
+            const downloadButtons = document.querySelectorAll('#downloadBtn, #drawerDownloadBtn');
+            const drawer = document.getElementById('drawer');
+            const drawerOverlay = document.getElementById('drawerOverlay');
+            
+            // Hide download buttons and drawer
+            downloadButtons.forEach(btn => btn.style.display = 'none');
+            drawer.style.display = 'none';
+            drawerOverlay.style.display = 'none';
 
+            // Get the clean HTML content
+            const pageHtml = document.documentElement.outerHTML;
 
+            // Restore elements
+            downloadButtons.forEach(btn => btn.style.display = 'inline-block');
+            drawer.style.display = 'block';
+            drawerOverlay.style.display = 'block';
+
+            // Create and trigger download
+            const blob = new Blob([pageHtml], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '{{#if personalInfo.fullName}}{{ personalInfo.fullName}}-{{/if}}Portfolio.html';
+            document.body.appendChild(a);
+            a.click();
+            
+            // Clean up
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Add event listeners for download buttons
+        document.getElementById('downloadBtn').addEventListener('click', function(event) {
+            event.preventDefault();
+            downloadHTML();
+        });
+
+        document.getElementById('drawerDownloadBtn').addEventListener('click', function(event) {
+            event.preventDefault();
+            downloadHTML();
+        });
     </script>
 </body>
 

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sowndhar</title>
+    <title>John Anderson - Portfolio</title>
     <link rel="icon" href="https://i.ibb.co/zRsTj3p/Frame-1-37.png">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap');
@@ -43,9 +43,6 @@
             margin: auto;
         }
 
-
-
-
         /*---------------------------Header---------------------------*/
 
         .header-area {
@@ -67,7 +64,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            /* padding-bottom: 2rem; */
         }
 
         .logo {
@@ -124,11 +120,101 @@
 
         .header .menu_icon {
             color: #fff;
-            font-size: 18px;
+            font-size: 24px;
             cursor: pointer;
             display: none;
+            padding: 10px 5px 10px 10px;
+            transition: color 0.3s;
         }
 
+        .header .menu_icon:hover {
+            color: #fed700;
+        }
+
+        /*---------------------------Mobile Drawer---------------------------*/
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100vh;
+            background-color: #202020;
+            border-left: 2px solid #fed700;
+            z-index: 1000;
+            transition: right 0.3s ease;
+            padding: 20px;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .drawer.open {
+            right: 0;
+        }
+
+        .drawer .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: #fff;
+            cursor: pointer;
+            padding: 10px;
+            transition: color 0.3s;
+        }
+
+        .drawer .close-btn:hover {
+            color: #fed700;
+        }
+
+        .drawer ul {
+            margin-top: 80px;
+        }
+
+        .drawer ul li {
+            margin: 20px 0;
+            border-bottom: 1px solid #333;
+            padding-bottom: 15px;
+        }
+
+        .drawer ul li:last-child {
+            border-bottom: none;
+        }
+
+        .drawer ul li a {
+            color: #fff;
+            font-size: 18px;
+            text-transform: capitalize;
+            transition: color 0.3s;
+            display: block;
+            padding: 10px 0;
+        }
+
+        .drawer ul li a:hover {
+            color: #fed700;
+        }
+
+        .drawer ul li a.active {
+            color: #fed700;
+        }
+
+        /* Overlay for drawer */
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .drawer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
 
         /*---------------------------HomePage--------------------------*/
 
@@ -194,8 +280,6 @@
             transform: rotate(360deg);
         }
 
-
-
         /*---------------------------About---------------------------*/
 
         .about-area {
@@ -221,14 +305,9 @@
             text-transform: capitalize;
         }
 
-        .about-content ul {
+        .about-content p {
             color: #fff;
             text-align: justify;
-        }
-
-        .about-content ul li {
-            list-style-type: disc;
-            margin-bottom: 10px;
         }
 
         .about-skills {
@@ -248,7 +327,6 @@
             padding-bottom: 0;
             margin-bottom: 0;
         }
-
 
         /*---------------------------Button---------------------------*/
 
@@ -271,7 +349,6 @@
         .btn.active {
             border-color: #fed700;
         }
-
 
         /*---------------------------Education & Internship---------------------------*/
 
@@ -306,7 +383,6 @@
         }
 
         .education-content .row .timeline {
-            /* background-color:#e5e5e5; */
             padding: 30px 15px;
             border: 1px solid #e5e5e5;
             border-radius: 10px;
@@ -368,12 +444,9 @@
             text-align: justify;
         }
 
-
-
         /*---------------------------Projects---------------------------*/
         .project-content {
             padding: 90px 0;
-            /* color:#fff;  */
         }
 
         .project-title {
@@ -400,7 +473,6 @@
         }
 
         .project {
-            /* padding: 30px 15px; */
             color: #e5e5e5;
             border: 2px solid #e5e5e5;
             border-radius: 10px;
@@ -410,6 +482,7 @@
             text-align: center;
             flex-basis: 32%;
             transition: .3s;
+            margin-bottom: 30px;
         }
 
         .project i {
@@ -435,8 +508,6 @@
         .project:hover {
             border-color: #fed700;
         }
-
-
 
         /*---------------------------Contact Me---------------------------*/
         .contact-content {
@@ -489,11 +560,6 @@
             display: block;
         }
 
-
-
-
-
-
         /*---------------------------Footer---------------------------*/
         .footer {
             max-width: 950px;
@@ -517,9 +583,6 @@
             font-size: 12px;
         }
 
-
-
-
         /*------------------- Responsive Design on small screen -------------------*/
 
         /* Medium layout */
@@ -540,15 +603,12 @@
             }
         }
 
-
-
         /* tablet layout */
         @media only screen and (min-width:768px) and (max-width:999px) {
             .container {
                 width: 750px;
             }
         }
-
 
         /* Mobile Layout */
         @media only screen and (max-width:767px) {
@@ -605,6 +665,29 @@
                 margin-bottom: 30px;
             }
 
+            /* Drawer responsive adjustments */
+            .drawer {
+                width: 280px;
+            }
+
+            .signature {
+                font-size: 20px;
+            }
+        }
+
+        /* Extra small devices */
+        @media only screen and (max-width:480px) {
+            .container {
+                width: 300px;
+            }
+
+            .drawer {
+                width: 250px;
+            }
+
+            .signature {
+                font-size: 18px;
+            }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -613,189 +696,266 @@
 
 <body>
 
+    <!-- Drawer Overlay -->
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <!-- Mobile Drawer -->
+    <div class="drawer" id="drawer">
+        <div class="close-btn" id="closeDrawer">
+            <i class="fa fa-times"></i>
+        </div>
+        <ul>
+            <li><a href="#home" class="drawer-link">Home</a></li>
+            <li><a href="#about" class="drawer-link">About</a></li>
+            <li><a href="#education" class="drawer-link">Experience</a></li>
+            <li><a href="#projects" class="drawer-link">Projects</a></li>
+            <li><a href="#contact" class="drawer-link">Contact</a></li>
+        </ul>
+    </div>
+
     <!-- Header -->
     <header class="header-area">
-      <div class="container">
-        <div class="header">
-          <a href="" class="logo">
-            <h2 class="signature">John Carter</h2>
-            <i class="fa fa-bolt"></i>
-          </a>
-          <ul class="navbar">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#education">Education</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-          <div class="menu_icon">
-            <i class="fa fa-bars"></i>
-          </div>
+        <div class="container">
+            <div class="header">
+                <a href="#home" class="logo">
+                    <h2 class="signature">John Anderson</h2>
+                    <i class="fa fa-bolt"></i>
+                </a>
+                <ul class="navbar">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#education">Experience</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="menu_icon" id="menuIcon">
+                    <i class="fa fa-bars"></i>
+                </div>
+            </div>
         </div>
-      </div>
     </header>
-  
+
     <!-- Home -->
     <div class="FirstElement" id="home">
-      <div class="profile-photo">
-        <img src="files/photo!!.png" alt="profile picture" />
-      </div>
-      <div class="profile-text">     
-        <h5>Hi I'm </h5><br />
-        <h1>John Carter</h1><br />
-        <p>Welcome to my portfolio website! I'm a driven and detail-oriented software engineer with a passion for crafting scalable, efficient solutions. I enjoy building full-stack web applications, solving real-world problems, and collaborating with others to bring ideas to life.</p>
-        <div class="btn-group">
-          <a href="files/JohnCarterResume.pdf" class="btn active">Download CV</a>
-          <a href="mailto:john.carter.dev@gmail.com" class="btn">Contact</a>
+        <div class="profile-photo">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face" alt="profile picture" />
         </div>
-        <div class="social">
-          <a href="mailto:john.carter.dev@gmail.com"><i class="fa fa-envelope"></i></a>
-          <a href="https://github.com/johncarter-dev"><i class="fa-brands fa-github"></i></a>
-          <a href="https://leetcode.com/johncarter-dev/"><i class="fa fa-code"></i></a>
-          <a href="https://www.linkedin.com/in/johncarter-dev/"><i class="fa-brands fa-linkedin"></i></a>
+        <div class="profile-text">
+            <h5>Hi I'm </h5><br />
+            <h1>John Anderson</h1><br />
+            <p>I'm a passionate Full Stack Developer with 5+ years of experience in building modern web applications. I specialize in React, Node.js, and cloud technologies. I love creating innovative solutions that solve real-world problems and enhance user experiences.</p>
+            <div class="btn-group">
+                <a href="https://drive.google.com/file/d/1example/view" class="btn active">Download CV</a>
+                <a href="mailto:john.anderson@email.com" class="btn">Contact</a>
+            </div>
+            <div class="social">
+                <a href="mailto:john.anderson@email.com"><i class="fa fa-envelope"></i></a>
+                <a href="https://github.com/johnanderson"><i class="fa-brands fa-github"></i></a>
+                <a href="https://linkedin.com/in/johnanderson"><i class="fa-brands fa-linkedin"></i></a>
+            </div>
         </div>
-      </div>
     </div>
-  
+
     <!-- About -->
     <section class="about-area" id="about">
-      <div class="container">
-        <div class="about">
-          <div class="about-content">
-            <h4>About Me</h4>
-            <ul>
-              <li>I am a final-year Computer Science student at the University of California, San Diego. I specialize in full-stack web development using JavaScript, React, Node.js, and MongoDB.</li>
-              <li>I enjoy turning complex problems into simple, beautiful, and intuitive applications. I’m always eager to learn and constantly looking for opportunities to grow as a developer.</li>
-              <li>Feel free to check out my work and get in touch if you’d like to collaborate on something cool!</li>
-            </ul>
-          </div>
-          <div class="about-skills">
-            <ul>
-              <li>Name: John Carter</li>
-              <li>Age: 22</li>
-              <li>From: United States</li>
-              <li>Email: john.carter.dev@gmail.com</li>
-              <li>Availability: Full-time</li>
-              <li>Experience: &lt;1yr</li>
-            </ul>
-          </div>
+        <div class="container">
+            <div class="about">
+                <div class="about-content">
+                    <h4>About Me</h4>
+                    <p>I'm a dedicated Full Stack Developer based in San Francisco, California. With a strong foundation in both frontend and backend technologies, I enjoy building scalable web applications that deliver exceptional user experiences. My expertise spans across modern JavaScript frameworks, cloud platforms, and agile development methodologies. I'm passionate about continuous learning and staying up-to-date with the latest industry trends and technologies.</p>
+                </div>
+                <div class="about-skills">
+                    <ul>
+                        <li>Name: John Anderson</li>
+                        <li>From: San Francisco, California</li>
+                        <li>Email: john.anderson@email.com</li>
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
     </section>
-  
-    <!-- Education & Internship -->
+
+    <!-- Education & Experience -->
     <section class="education-content" id="education">
-      <div class="container">
-        <div class="row">
-          <div class="education">
-            <h3 class="title">Education</h3>
+        <div class="container">
             <div class="row">
-              <div class="timeline-box">
-                <div class="timeline">
-                  <div class="timeline-item">
-                    <div class="circle-dot"></div>
-                    <h3 class="timeline-title">B.Sc Computer Science - 3.6 GPA</h3>
-                    <h4 class="timeline-title">University of California, San Diego</h4>
-                    <h4 class="timeline-title"><i class="fa fa-calendar"></i> 2021 - 2025</h4>
-                  </div>
-                  <div class="timeline-item">
-                    <div class="circle-dot"></div>
-                    <h3 class="timeline-title">High School - 92%</h3>
-                    <h4 class="timeline-title">Oakridge High School, California</h4>
-                    <h4 class="timeline-title"><i class="fa fa-calendar"></i> 2019 - 2021</h4>
-                  </div>
+                <div class="education">
+                    <h3 class="title">Education</h3>
+                    <div class="row">
+                        <div class="timeline-box">
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="circle-dot"></div>
+                                    <h3 class="timeline-title">Bachelor of Science in Computer Science</h3>
+                                    <h4 class="timeline-title">Stanford University</h4>
+                                    <h4 class="timeline-title"><i class="fa fa-calendar"></i> 2016 - 2020</h4>
+                                    <p class="timeline-text">Graduated Magna Cum Laude with a focus on Software Engineering and Web Development. Completed coursework in Data Structures, Algorithms, Database Systems, and Human-Computer Interaction.</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="circle-dot"></div>
+                                    <h3 class="timeline-title">Master of Science in Software Engineering</h3>
+                                    <h4 class="timeline-title">University of California, Berkeley</h4>
+                                    <h4 class="timeline-title"><i class="fa fa-calendar"></i> 2020 - 2022</h4>
+                                    <p class="timeline-text">Specialized in Advanced Web Technologies and Cloud Computing. Thesis focused on scalable microservices architecture and containerization technologies.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div class="internship">
-            <h3 class="title">Internship</h3>
-            <div class="row">
-              <div class="timeline-box">
-                <div class="timeline">
-                  <div class="timeline-item">
-                    <div class="circle-dot"></div>
-                    <h3 class="timeline-title">Software Engineering Intern</h3>
-                    <h4 class="timeline-title">TechNova Inc.</h4>
-                    <h4 class="timeline-title"><i class="fa fa-calendar"></i> May - Aug 2024</h4>
-                    <li class="timeline-text">Worked on backend APIs using Express.js and MongoDB, improved performance by 20%, and collaborated with frontend developers to deliver a new dashboard feature.</li>
-                  </div>
-                  <div class="timeline-item">
-                    <div class="circle-dot"></div>
-                    <h3 class="timeline-title">Web Development Intern</h3>
-                    <h4 class="timeline-title">PixelByte Studios</h4>
-                    <h4 class="timeline-title"><i class="fa fa-calendar"></i> Jan - Mar 2024</h4>
-                    <li class="timeline-text">Built responsive UI components using React, integrated REST APIs, and deployed apps on Netlify and Vercel.</li>
-                  </div>
+
+                <div class="internship">
+                    <h3 class="title">Experience</h3>
+                    <div class="row">
+                        <div class="timeline-box">
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="circle-dot"></div>
+                                    <h3 class="timeline-title">Senior Full Stack Developer</h3>
+                                    <h4 class="timeline-title">TechCorp Solutions</h4>
+                                    <h4 class="timeline-title"><i class="fa fa-calendar"></i> 2022 - Present</h4>
+                                    <p class="timeline-text">Leading development of enterprise web applications using React, Node.js, and AWS. Mentoring junior developers and implementing best practices for code quality and performance optimization.</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="circle-dot"></div>
+                                    <h3 class="timeline-title">Full Stack Developer</h3>
+                                    <h4 class="timeline-title">InnovateTech Inc.</h4>
+                                    <h4 class="timeline-title"><i class="fa fa-calendar"></i> 2020 - 2022</h4>
+                                    <p class="timeline-text">Developed and maintained multiple client projects using MERN stack. Collaborated with cross-functional teams to deliver high-quality software solutions on time and within budget.</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="circle-dot"></div>
+                                    <h3 class="timeline-title">Software Engineering Intern</h3>
+                                    <h4 class="timeline-title">Google</h4>
+                                    <h4 class="timeline-title"><i class="fa fa-calendar"></i> Summer 2019</h4>
+                                    <p class="timeline-text">Worked on improving search algorithms and user interface components. Gained experience with large-scale distributed systems and agile development practices.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </section>
-  
+
     <!-- Projects -->
     <section class="project-content" id="projects">
-      <div class="container">
-        <div class="project-title">
-          <h4>My Projects</h4>
-          <p>Explore the solutions I've built during my development journey</p>
+        <div class="container">
+            <div class="project-title">
+                <h4>My Projects</h4>
+                <p>Explore the solutions I've built</p>
+            </div>
+            <div class="projects">
+                <div class="project">
+                    <i class="fa fa-shopping-cart"></i>
+                    <h4>E-Commerce Platform</h4>
+                    <p>A full-featured e-commerce platform built with React, Node.js, and MongoDB. Features include user authentication, payment processing, inventory management, and real-time order tracking.</p>
+                </div>
+                <div class="project">
+                    <i class="fa fa-tasks"></i>
+                    <h4>Task Management App</h4>
+                    <p>A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features. Built using React, Express.js, and Socket.io.</p>
+                </div>
+                <div class="project">
+                    <i class="fa fa-chart-line"></i>
+                    <h4>Analytics Dashboard</h4>
+                    <p>A comprehensive analytics dashboard for business intelligence with interactive charts, data visualization, and reporting features. Developed using React, D3.js, and Python backend.</p>
+                </div>
+                <div class="project">
+                    <i class="fa fa-mobile-alt"></i>
+                    <h4>Mobile Banking App</h4>
+                    <p>A secure mobile banking application with biometric authentication, transaction history, and budget tracking. Built with React Native and integrated with secure payment gateways.</p>
+                </div>
+                <div class="project">
+                    <i class="fa fa-cloud"></i>
+                    <h4>Cloud Storage Solution</h4>
+                    <p>A scalable cloud storage platform with file sharing, version control, and collaboration features. Implemented using AWS services, Node.js, and React with end-to-end encryption.</p>
+                </div>
+                <div class="project">
+                    <i class="fa fa-graduation-cap"></i>
+                    <h4>Learning Management System</h4>
+                    <p>An online learning platform with course management, video streaming, progress tracking, and interactive quizzes. Developed using MERN stack with video processing capabilities.</p>
+                </div>
+            </div>
         </div>
-        <div class="projects">
-          <div class="project">
-            <i class="fa fa-gamepad"></i>
-            <h4>Space Invaders Clone</h4>
-            <p>Classic arcade-style game built using Python and Pygame. Features keyboard controls, collision detection, and score tracking.</p>
-          </div>
-          <div class="project">
-            <i class="fa fa-robot"></i>
-            <h4>AI Chatbot</h4>
-            <p>A chatbot built using Node.js and OpenAI API. It provides intelligent responses and context-aware replies using NLP.</p>
-          </div>
-          <div class="project">
-            <i class="fa fa-globe"></i>
-            <h4>Portfolio Website</h4>
-            <p>This personal portfolio is built using HTML, CSS, JavaScript. It showcases my skills, education, and project highlights.</p>
-          </div>
-        </div>
-      </div>
     </section>
-  
+
     <!-- Contact -->
     <section class="contact-content" id="contact">
-      <div class="container">
-        <div class="contact-title">
-          <h4>Contact Me</h4>
-          <p>Let’s connect and collaborate</p>
+        <div class="container">
+            <div class="contact-title">
+                <h4>Contact Me</h4>
+                <p>Let's connect and collaborate</p>
+            </div>
+            <div class="contact">
+                <form name="submitToGoogleSheet">
+                    <input type="text" name="NAME" placeholder="Name" required />
+                    <input type="email" name="EMAIL" placeholder="Email" required />
+                    <input type="text" name="SUBJECT" placeholder="Subject" />
+                    <textarea name="MESSAGE" placeholder="Message"></textarea>
+                    <input type="submit" value="Send Message" class="submit" />
+                </form>
+                <span id="msg"></span>
+            </div>
         </div>
-        <div class="contact">
-          <form name="submitToGoogleSheet">
-            <input type="text" name="NAME" placeholder="Name" required />
-            <input type="email" name="EMAIL" placeholder="Email" required />
-            <input type="text" name="SUBJECT" placeholder="Subject" />
-            <textarea name="MESSAGE" placeholder="Message"></textarea>
-            <input type="submit" value="Send Message" class="submit" />
-          </form>
-          <span id="msg"></span>
-        </div>
-      </div>
     </section>
-  
+
+    <!-- Footer -->
+    <footer class="footer">
+        <small class="message">Thanks for visiting and happy coding!</small>
+        <small class="copyright">&copy; Copyright 2025. All rights reserved.</small>
+    </footer>
+
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
-    <script src="script.js"></script>
-  
-    <!-- Footer -->
-    <footer class="footer">
-      <small class="message">Thanks for visiting and happy coding!</small>
-      <small class="copyright">&copy; Copyright 2025. All rights reserved.</small>
-    </footer>
-
     <script>
         $(document).ready(function () {
+            // Mobile drawer functionality
+            const menuIcon = document.getElementById('menuIcon');
+            const drawer = document.getElementById('drawer');
+            const closeDrawer = document.getElementById('closeDrawer');
+            const drawerOverlay = document.getElementById('drawerOverlay');
+            const drawerLinks = document.querySelectorAll('.drawer-link');
+
+            // Open drawer
+            menuIcon.addEventListener('click', function() {
+                drawer.classList.add('open');
+                drawerOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            });
+
+            // Close drawer
+            function closeDrawerMenu() {
+                drawer.classList.remove('open');
+                drawerOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto'; // Enable scrolling
+            }
+
+            closeDrawer.addEventListener('click', closeDrawerMenu);
+            drawerOverlay.addEventListener('click', closeDrawerMenu);
+
+            // Close drawer when clicking on links
+            drawerLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    closeDrawerMenu();
+                    
+                    var target = $(this).attr("href");
+                    
+                    if (target === "#home") {
+                        $("html, body").animate({ scrollTop: 0 }, 500);
+                    } else {
+                        var offset = $(target).offset().top - 40;
+                        $("html, body").animate({ scrollTop: offset }, 500);
+                    }
+                    
+                    // Update active states
+                    $(".header ul li a, .drawer-link").removeClass("active");
+                    $(this).addClass("active");
+                    $(".header ul li a[href='" + target + "']").addClass("active");
+                });
+            });
 
             //sticky header
             $(window).scroll(function () {
@@ -819,27 +979,16 @@
                 }
 
                 if (target === "#home") {
-                    $("html, body").animate(
-                        {
-                            scrollTop: 0
-                        },
-                        500
-                    );
+                    $("html, body").animate({ scrollTop: 0 }, 500);
                 } else {
                     var offset = $(target).offset().top - 40;
-
-                    $("html, body").animate(
-                        {
-                            scrollTop: offset
-                        },
-                        500
-                    );
+                    $("html, body").animate({ scrollTop: offset }, 500);
                 }
 
-                $(".header ul li a").removeClass("active");
+                $(".header ul li a, .drawer-link").removeClass("active");
                 $(this).addClass("active");
+                $(".drawer-link[href='" + target + "']").addClass("active");
             });
-
 
             //Initial content revealing js
             ScrollReveal({
@@ -886,8 +1035,8 @@
 
             // Checking if scroll position is at the top of the page
             if (scrollPosition === 0) {
-                $(".header ul li a").removeClass("active");
-                $(".header ul li a[href='#home']").addClass("active");
+                $(".header ul li a, .drawer-link").removeClass("active");
+                $(".header ul li a[href='#home'], .drawer-link[href='#home']").addClass("active");
                 return;
             }
 
@@ -901,14 +1050,11 @@
                     scrollPosition >= offset - 40 &&
                     scrollPosition < offset + height - 40
                 ) {
-                    $(".header ul li a").removeClass("active");
-                    $(".header ul li a[href='#" + target + "']").addClass("active");
+                    $(".header ul li a, .drawer-link").removeClass("active");
+                    $(".header ul li a[href='#" + target + "'], .drawer-link[href='#" + target + "']").addClass("active");
                 }
             });
         }
-
-
-
     </script>
 </body>
 
