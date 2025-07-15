@@ -98,7 +98,7 @@ const useAuthStore = create((set) => ({
         } catch (error) {
             console.error('UpdateInfo error:', error);
             toast.error(`Failed to update information. ${error.response?.data?.message || 'An error occurred.'}`);
-            throw error; // Propagate the error to the component
+            throw error; 
         } finally {
             set({ isSavingData: false });
         }

@@ -16,7 +16,7 @@ const DesignCard = () => {
   }
 
   const handleDynamicRouting = async () => {
-    const htmlString = await GetPortfolioPage(id, 'design1');
+    const htmlString = await GetPortfolioPage(id, 'design2');
     try {
 
       if (typeof htmlString !== 'string') {

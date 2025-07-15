@@ -19,6 +19,8 @@ const InfoSchema = new mongoose.Schema({
     title: { type: String }, // Title of the service
     description: { type: String }, // Description of the service
   }],
+
+  
   about: { type: String }, // Short bio or summary
 
   skills: [{ type: String }], // List of skills

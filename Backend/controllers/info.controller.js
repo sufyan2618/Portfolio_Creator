@@ -6,6 +6,10 @@ import Handlebars from 'handlebars';
 import { fileURLToPath } from 'url';
 import formatDate from '../util/formatDate.js';
 
+
+
+Handlebars.registerHelper('formatDate', formatDate);
+
 export const StoreInfo = async (req, res) => {
     try {
         const { id, data } = req.body;
