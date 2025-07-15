@@ -1,6 +1,7 @@
 import Design from '../models/design.model.js';
 import { uploadToCloudinary } from '../lib/cloudinary.js';
 import fs from 'fs';
+import uploadFile from '../util/uploadFile.js';
 
 // Handler to get all designs
 export const GetDesigns = async (req, res) => {
@@ -9,7 +10,7 @@ export const GetDesigns = async (req, res) => {
         if (!designs || designs.length === 0) {
             return res.status(404).json({ message: 'No designs found' });
         }
-    
+
         res.status(200).json(designs);
     } catch (error) {
         console.error('Error fetching designs:', error);
@@ -27,29 +28,44 @@ export const AddDesign = async (req, res) => {
         const imageFile = req.files?.image?.[0];
 
         if (!title || !description || !hbsFile || !htmlFile || !imageFile) {
-            // It's good practice to clean up any uploaded files if validation fails
-            if (imageFile) fs.unlinkSync(imageFile.path);
-            if (hbsFile) fs.unlinkSync(hbsFile.path);
-            if (htmlFile) fs.unlinkSync(htmlFile.path);
             return res.status(400).json({ message: 'All fields, including files, are required' });
         }
 
-        // Upload the image to Cloudinary
-        const imageUrl = await uploadToCloudinary(imageFile.path, 'design_images');
-        
-        // Clean up the local image file after successful upload
-        fs.unlinkSync(imageFile.path);
+        //upload to cloudinary
 
 
         const count = await Design.countDocuments();
-        const newDesignId = `design${count + 1}`;
+        const newCount = count + 1;
+
+        const htmlFilePath = `html_files/design${newCount}.html`;
+        const hbsFilePath = `hbs_files/design${newCount}.hbs`;
+        const htmlType = 'text/html';
+        const hbsType = 'text/x-handlebars-template';
+
+
+        const htmlFileUrl = await uploadFile(htmlFilePath, htmlFile.buffer, htmlType);
+        const hbsFileUrl = await uploadFile(hbsFilePath, hbsFile.buffer, hbsType);
+
+        console.log('HTML File URL:', htmlFileUrl);
+        console.log('HBS File URL:', hbsFileUrl);
+
+        if (!htmlFileUrl || !hbsFileUrl) {
+            return res.status(500).json({ message: 'Failed to upload files' });
+        }
+
+        const base64Image = `data:${imageFile.mimetype};base64,${imageFile.buffer.toString("base64")}`;
+        const imageUrl = await uploadToCloudinary(base64Image, 'design_images');
+
+        const newDesignId = `design${newCount}`;
 
         // Create the new design document with the correct imageUrl string
         const newDesign = new Design({
             designId: newDesignId,
             title,
             description,
-            imageUrl, // Now this is a string, which matches your schema
+            imageUrl,
+            hbsFileUrl,
+            htmlFileUrl,
         });
 
         await newDesign.save();
@@ -58,7 +74,7 @@ export const AddDesign = async (req, res) => {
 
     } catch (error) {
         // This log now provides much more detail for debugging
-        console.error('Error adding design:', error); 
+        console.error('Error adding design:', error);
         res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
 };

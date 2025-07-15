@@ -1,7 +1,9 @@
-// design.router.js
 import express from 'express';
 import { GetDesigns, AddDesign } from '../controllers/design.controller.js';
-import upload from '../util/storage.js';
+import multer from 'multer';
+const storage = multer.memoryStorage(); 
+const upload = multer({ storage: storage });
+
 
 const Designrouter = express.Router();
 

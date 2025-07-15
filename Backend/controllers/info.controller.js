@@ -165,6 +165,7 @@ export const GetPortfolioPage = async (req, res) => {
         res.status(200).send(finalHtml);
 
     } catch (error) {
+        
         // 6. Improved error logging remains for debugging
         console.error("Error in getPortfolioPage:", error); 
 
