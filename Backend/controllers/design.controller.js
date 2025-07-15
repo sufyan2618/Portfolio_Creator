@@ -1,14 +1,15 @@
-import design from '../models/design.model.js';
-import uploadToCloudinary from '../util/cloudinary.js'; // Assuming you have a utility to upload to Cloudinary
+import Design from '../models/design.model.js';
+import { uploadToCloudinary } from '../lib/cloudinary.js';
 import fs from 'fs';
-import path from 'path';
-import upload from '../util/storage.js';
-
 
 // Handler to get all designs
 export const GetDesigns = async (req, res) => {
     try {
-        const designs = await design.find();
+        const designs = await Design.find({}).sort({ createdAt: -1 }).select('-__v'); // Exclude __v field
+        if (!designs || designs.length === 0) {
+            return res.status(404).json({ message: 'No designs found' });
+        }
+    
         res.status(200).json(designs);
     } catch (error) {
         console.error('Error fetching designs:', error);
@@ -16,61 +17,54 @@ export const GetDesigns = async (req, res) => {
     }
 }
 
-// Handler to add a new design
 export const AddDesign = async (req, res) => {
-    // Expecting files: 'hbsfile' and 'htmlfile'; fields: title, description, image
-    upload.fields([
-        { name: 'hbsfile', maxCount: 1 },
-        { name: 'htmlfile', maxCount: 1 },
-        { name: 'image', maxCount: 1 }
-    ])(req, res, async (err) => {
-        if (err) {
-            console.error('Upload error:', err);
-            return res.status(500).json({ message: 'Upload failed' });
+    try {
+        const { title, description } = req.body;
+
+        // Multer correctly places files in req.files
+        const hbsFile = req.files?.hbsfile?.[0];
+        const htmlFile = req.files?.htmlfile?.[0];
+        const imageFile = req.files?.image?.[0];
+
+        if (!title || !description || !hbsFile || !htmlFile || !imageFile) {
+            // It's good practice to clean up any uploaded files if validation fails
+            if (imageFile) fs.unlinkSync(imageFile.path);
+            if (hbsFile) fs.unlinkSync(hbsFile.path);
+            if (htmlFile) fs.unlinkSync(htmlFile.path);
+            return res.status(400).json({ message: 'All fields, including files, are required' });
         }
 
-        try {
-            const { title, description } = req.body;
-            const hbsfilePath = req.files['hbsfile'] ? req.files['hbsfile'][0].path : null;
-            const htmlfilePath = req.files['htmlfile'] ? req.files['htmlfile'][0].path : null;
-            const imagePath = req.files['image'] ? req.files['image'][0].path : null;
+        // Upload the image to Cloudinary
+        const imageUrl = await uploadToCloudinary(imageFile.path, 'design_images');
+        
+        // Clean up the local image file after successful upload
+        fs.unlinkSync(imageFile.path);
 
-            if (!title || !description || !imagePath || !hbsfilePath || !htmlfilePath) {
-                return res.status(400).json({ message: 'All fields are required' });
-            }
+        // --- THIS IS THE FIX ---
+        // Use the 'secure_url' property from the Cloudinary response object
+      
 
-            // Upload image to Cloudinary
-            const imageUrl = await uploadToCloudinary(imagePath);
+        // Generate a unique ID for the design
+        const count = await Design.countDocuments();
+        const newDesignId = `design${count + 1}`;
 
-            // Clean up local image file after upload
-            fs.unlinkSync(imagePath);
+        // Create the new design document with the correct imageUrl string
+        const newDesign = new Design({
+            designId: newDesignId,
+            title,
+            description,
+            imageUrl, // Now this is a string, which matches your schema
+            hbsFilePath: hbsFile.path, 
+            htmlFilePath: htmlFile.path,
+        });
 
-            // Save hbs file to /backend/public/templates/
-            const hbsDestPath = path.resolve('backend', 'public', 'templates', path.basename(hbsfilePath));
-            fs.renameSync(hbsfilePath, hbsDestPath);
+        await newDesign.save();
 
-            // Save html file to /frontend/public/designs/
-            const htmlDestPath = path.resolve('frontend', 'public', 'designs', path.basename(htmlfilePath));
-            fs.renameSync(htmlfilePath, htmlDestPath);
+        res.status(201).json({ message: 'Design added successfully', design: newDesign });
 
-            // Generate new design ID
-            count = await design.countDocuments();
-            const newDesignId = `design${count + 1}`;
-
-            // Create new design document
-            const newDesign = new design({
-                designId: newDesignId,
-                title,
-                description,
-                imageUrl,
-            });
-
-            await newDesign.save();
-
-            res.status(201).json({ message: 'Design added successfully', design: newDesign });
-        } catch (error) {
-            console.error('Error adding design:', error);
-            res.status(500).json({ message: 'Internal server error' });
-        }
-    });
+    } catch (error) {
+        // This log now provides much more detail for debugging
+        console.error('Error adding design:', error); 
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
 };

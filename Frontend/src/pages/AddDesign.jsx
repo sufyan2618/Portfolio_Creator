@@ -1,4 +1,6 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
+import useDesignStore from '../Store/useDesignStore';
 
 const AddDesign = () => {
     // This component renders a form to add a new design
@@ -9,8 +11,30 @@ const AddDesign = () => {
         hbsfile: null,
         htmlfile: null
     });
-    const handleSubmit = async (e) => {
 
+    const navigate = useNavigate();
+
+    const { CreateDesign } = useDesignStore(); 
+
+    const handleChange = (e) => {
+        const { name, value, files } = e.target;
+        if (files) {
+            setFormData({ ...formData, [name]: files[0] });
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
+    }
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const res = await CreateDesign(formData);
+        if (res) {
+            navigate('/designs'); // Redirect to designs page after successful creation
+        } else {
+            console.error('Failed to create design');
+        }
+        
     }
 
   return (

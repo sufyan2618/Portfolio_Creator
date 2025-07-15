@@ -2,12 +2,15 @@ import React from 'react'
 import useAuthStore from '../Store/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import useDesignStore from '../Store/useDesignStore';
 
 const DesignCard = () => {
 
   const navigate = useNavigate();
 
   const { authUser, GetPortfolioPage, isCreatingPortfolio } = useAuthStore();
+  const { designs} = useDesignStore();
+
   const id = authUser?._id || '';
 
   const handleStaticRouting = () => {
@@ -39,13 +42,13 @@ const DesignCard = () => {
   return (
     <div className="bg-white shadow-md rounded-lg p-6 max-w-sm mx-auto">
       <img
-        src="/portImages/Portfolio1.png"
+        src={designs[0].imageUrl || 'https://via.placeholder.com/300'}
         alt="Design Thumbnail"
         className="w-full h-40 object-cover rounded-t-lg mb-4"
       />
-      <h2 className="text-xl font-semibold mb-2">Design Title</h2>
+      <h2 className="text-xl font-semibold mb-2">{ designs[0].title}</h2>
       <p className="text-gray-600 mb-4">
-        A brief description of the design goes here. It should be concise and informative.
+        { designs[0].description}
       </p>
       <div className='flex justify-between items-center'>
         <button onClick={handleStaticRouting} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">

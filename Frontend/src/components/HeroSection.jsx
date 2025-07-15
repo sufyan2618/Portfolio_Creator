@@ -16,6 +16,12 @@ const HeroSection = () => {
         >
           Explore Designs
         </a>
+        <a
+          href="/add_design"
+          className="inline-block bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 ml-4 transition-colors"
+        > 
+          Add Design
+        </a>
       </div>
     </div>
   )
