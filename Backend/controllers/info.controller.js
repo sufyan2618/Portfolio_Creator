@@ -153,7 +153,7 @@ export const GetPortfolioPage = async (req, res) => {
         
         // --- THIS IS THE CORRECTED LINE ---
         // It navigates from /backend/controllers up to /backend, then into /public/templates
-        const templatePath = path.join(__dirname, '..', 'public', 'templates', designId, 'index.hbs');
+        const templatePath = path.join(__dirname, '..', 'public', 'templates', `${designId}.hbs`);
         
         // 4. Read the template file
         const templateString = fs.readFileSync(templatePath, 'utf8');

@@ -40,11 +40,7 @@ export const AddDesign = async (req, res) => {
         // Clean up the local image file after successful upload
         fs.unlinkSync(imageFile.path);
 
-        // --- THIS IS THE FIX ---
-        // Use the 'secure_url' property from the Cloudinary response object
-      
 
-        // Generate a unique ID for the design
         const count = await Design.countDocuments();
         const newDesignId = `design${count + 1}`;
 
@@ -54,8 +50,6 @@ export const AddDesign = async (req, res) => {
             title,
             description,
             imageUrl, // Now this is a string, which matches your schema
-            hbsFilePath: hbsFile.path, 
-            htmlFilePath: htmlFile.path,
         });
 
         await newDesign.save();
