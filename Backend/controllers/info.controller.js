@@ -5,6 +5,7 @@ import path from 'path';
 import Handlebars from 'handlebars';
 import { fileURLToPath } from 'url';
 import formatDate from '../util/formatDate.js';
+import Design from '../models/design.model.js';
 
 
 
@@ -138,6 +139,12 @@ export const GetPortfolioPage = async (req, res) => {
             return res.status(404).send('<h1>Portfolio data not found.</h1>');
         }
 
+        const designData = await Design.findOne({ designId }).lean();
+        if (!designData) {
+            return res.status(404).send('<h1>Design template not found.</h1>');
+        }
+
+
         // 2. Prepare data for the template
         const templateData = {
             ...portfolioData,
@@ -147,16 +154,19 @@ export const GetPortfolioPage = async (req, res) => {
             hasEducationOrExperience: (portfolioData.education?.length > 0) || (portfolioData.workExperience?.length > 0)
         };
 
-        // 3. Construct the correct path to your template
-        const __filename = fileURLToPath(import.meta.url);
-        const __dirname = path.dirname(__filename);
+        // // 3. Construct the correct path to your template
+        // const __filename = fileURLToPath(import.meta.url);
+        // const __dirname = path.dirname(__filename);
         
-        // --- THIS IS THE CORRECTED LINE ---
-        // It navigates from /backend/controllers up to /backend, then into /public/templates
-        const templatePath = path.join(__dirname, '..', 'public', 'templates', `${designId}.hbs`);
+        // // --- THIS IS THE CORRECTED LINE ---
+        // // It navigates from /backend/controllers up to /backend, then into /public/templates
+        // const templatePath = path.join(__dirname, '..', 'public', 'templates', `${designId}.hbs`);
         
         // 4. Read the template file
-        const templateString = fs.readFileSync(templatePath, 'utf8');
+        const response = await fetch(designData.hbsFileUrl)
+
+        const templateString = await response.text();
+
         
         // 5. Compile and send the final HTML
         const compiledTemplate = Handlebars.compile(templateString);
