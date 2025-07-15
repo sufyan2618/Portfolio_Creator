@@ -9,6 +9,7 @@ import InfoPage from './pages/InfoPage'
 import Profile from './pages/Profile'
 import UpdateInfoPage from './pages/UpdateInfoPage'
 import useAuthStore from './Store/useAuthStore'
+import AddDesign from './pages/AddDesign'
 
 import { useEffect } from 'react'
 function App() {
@@ -49,6 +50,8 @@ function App() {
       <Route path='/portfolio_info' element={<InfoPage/>}/>
       <Route path='/profile/:id' element={<Profile/>}/>
       <Route path='/update_info' element={<UpdateInfoPage/>}/>
+      <Route path='/add_design' element={<AddDesign/>}/>
+
     </Routes>
     <Toaster/>
     </>

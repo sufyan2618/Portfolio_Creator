@@ -12,7 +12,7 @@ const DesignCard = () => {
 
   const handleStaticRouting = () => {
     // Navigate to the design details page
-    window.open('/designs/design1/index.html', '_blank')
+    window.open('/designs/design2/index.html', '_blank')
   }
 
   const handleDynamicRouting = async () => {
