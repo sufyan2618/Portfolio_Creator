@@ -21,16 +21,17 @@ export const StoreInfo = async (req, res) => {
             return res.status(400).json({ message: 'Invalid information data' });
         }
 
-        // Prevent duplicate info for the same user
-        // const existingInfo = await Info.findOne({ userId: id });
-        // if (existingInfo) {
-        //     return res.status(400).json({ message: 'Information already exists for this user' });
-        // }
+
+        const existingInfo = await Info.findOne({ userId: id });
+        if (existingInfo) {
+            return res.status(400).json({ message: 'Information already exists for this user' });
+        }
 
         // Prepare data according to the schema using the 'data' object
         const info = new Info({
             userId: id, 
             personalInfo: data.personalInfo || {},
+            services: data.services || [],
             about: data.about || '',
             skills: data.skills || [],
             education: data.education || [],
@@ -72,6 +73,7 @@ export const UpdateInfo = async (req, res) => {
             { userId: id },
             {
                 personalInfo: data.personalInfo || {},
+                services: data.services || [],
                 about: data.about || '',
                 skills: data.skills || [],
                 education: data.education || [],

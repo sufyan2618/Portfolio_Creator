@@ -15,6 +15,7 @@ const initialState = {
   twitter: '',
   profilePictureUrl: '',
   },
+  services: [ { title: '', description: '' }],
   about: '',
   skills: '',
   education: [
@@ -107,6 +108,10 @@ const InfoPage = () => {
         twitter: formData.twitter,
         profilePictureUrl: formData.profilePictureUrl
       },
+      services: formData.services.map(s => ({
+        title: s.title,
+        description: s.description
+      })),
       about: formData.about,
       skills: typeof formData.skills === 'string' ? formData.skills.split(',').map(s => s.trim()) : formData.skills,
       interests: typeof formData.interests === 'string' ? formData.interests.split(',').map(i => i.trim()) : formData.interests,
@@ -173,6 +178,20 @@ const InfoPage = () => {
           <label className="block text-sm font-medium mb-2">Profile Picture URL</label>
           <input type="url" name="profilePictureUrl" value={formData.profilePictureUrl} onChange={handleChange} placeholder="Enter URL of your profile picture" className="w-full px-4 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors" />
         </div>
+        {/* Services Section */}
+        <div className="md:col-span-2">
+          <label className="block text-sm font-medium mb-2">Services Offered</label>
+          {formData.services.map((service, idx) => (
+            <div key={idx} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <input type="text" placeholder="Service Title" value={service.title} onChange={e => handleDynamicArrayChange(idx, 'title', e.target.value, 'services')} className="px-2 py-1 border rounded" />
+              <input type="text" placeholder="Service Description" value={service.description} onChange={e => handleDynamicArrayChange(idx, 'description', e.target.value, 'services')} className="px-2 py-1 border rounded" />
+            </div>
+          ))}
+
+          <button type="button" onClick={() => handleAddEntry('services', { title: '', description: '' })} className="px-4 py-2 bg-blue-500 text-white rounded">Add Service</button>
+        </div>
+
+        {/* About, Skills, Interests, Additional Info and Social Links */}
         <div className="md:col-span-2">
           <label className="block text-sm font-medium mb-2">About You</label>
           <textarea name="about" value={formData.about} onChange={handleChange} placeholder="Write a short bio or summary about yourself" rows={4} className="w-full px-4 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors" />
