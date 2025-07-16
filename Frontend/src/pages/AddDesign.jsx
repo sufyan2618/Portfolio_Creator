@@ -14,7 +14,7 @@ const AddDesign = () => {
 
     const navigate = useNavigate();
 
-    const { CreateDesign } = useDesignStore(); 
+    const { CreateDesign, isCreatingDesign } = useDesignStore(); 
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
@@ -92,9 +92,10 @@ const AddDesign = () => {
     </div>
             <button
                 type="submit"
+                disabled={isCreatingDesign}
                 className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200"
             >
-                Add Design
+             {  isCreatingDesign ? 'Creating...' : 'Add Design'}
             </button>
         </form>
     </div>
