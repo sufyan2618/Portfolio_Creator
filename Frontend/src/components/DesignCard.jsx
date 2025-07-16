@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 // The component now accepts 'design' as a prop
 const DesignCard = ({ design }) => {
   const navigate = useNavigate();
-  const { authUser, GetPortfolioPage, isCreatingPortfolio } = useAuthStore();
+  const { authUser, userInfo } = useAuthStore();
   const id = authUser?._id || '';
 
   // Return null or a placeholder if no design data is passed
@@ -19,20 +19,12 @@ const DesignCard = ({ design }) => {
     window.open(`${design.htmlFileUrl}`, '_blank');
   };
 
-  const handleDynamicRouting = async () => {
-    try {
-      // Use the design's unique ID
-      const htmlString = await GetPortfolioPage(id, design.designId);
-      if (typeof htmlString !== 'string') {
-        throw new Error("Received invalid data from the server.");
-      }
-      const blob = new Blob([htmlString], { type: 'text/html' });
-      const url = URL.createObjectURL(blob);
-      window.open(url, '_blank');
-    } catch (error) {
-      console.error('Error opening design:', error);
-      toast.error('Failed to open design. Please try again later.');
+  const handleDynamicRouting =  () => {
+    if (!authUser || !userInfo) {
+      toast.error('Please login and Fill your information first to use this design');
+      return;
     }
+    navigate(`/portfolio_preview/${id}/${design.designId}`);
   };
 
   const handleLoginRouting = () => {
@@ -53,8 +45,8 @@ const DesignCard = ({ design }) => {
           View Design
         </button>
         {authUser ? (
-          <button onClick={handleDynamicRouting} disabled={isCreatingPortfolio} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
-            {isCreatingPortfolio ? 'Loading...' : 'Use this Design'}
+          <button onClick={handleDynamicRouting}  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
+             Use this Design
           </button>
         ) : (
           <button onClick={handleLoginRouting} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">

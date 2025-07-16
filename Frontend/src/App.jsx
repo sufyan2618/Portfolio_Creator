@@ -10,6 +10,7 @@ import Profile from './pages/Profile'
 import UpdateInfoPage from './pages/UpdateInfoPage'
 import useAuthStore from './Store/useAuthStore'
 import AddDesign from './pages/AddDesign'
+import PortfolioPreview from './pages/PreviewPortfolio'
 
 import { useEffect } from 'react'
 function App() {
@@ -51,7 +52,7 @@ function App() {
       <Route path='/profile/:id' element={<Profile/>}/>
       <Route path='/update_info' element={<UpdateInfoPage/>}/>
       <Route path='/add_design' element={<AddDesign/>}/>
-
+      <Route path='/portfolio_preview/:userId/:designId' element={<PortfolioPreview/>}/>
     </Routes>
     <Toaster/>
     </>
