@@ -3,19 +3,16 @@ import useAuthStore from '../Store/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
-// The component now accepts 'design' as a prop
 const DesignCard = ({ design }) => {
   const navigate = useNavigate();
   const { authUser, userInfo } = useAuthStore();
   const id = authUser?._id || '';
 
-  // Return null or a placeholder if no design data is passed
   if (!design) {
     return null;
   }
 
   const handleStaticRouting = () => {
-    // Use the design's specific path
     window.open(`${design.htmlFileUrl}`, '_blank');
   };
 

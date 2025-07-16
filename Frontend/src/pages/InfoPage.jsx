@@ -40,7 +40,7 @@ const initialState = {
 
 const InfoPage = () => {
   const [formData, setFormData] = useState(initialState);
-  const { SaveData, authUser } = useAuthStore();
+  const { SaveData, authUser, isSavingData } = useAuthStore();
   const id = authUser?._id || null;
   // Handle simple input changes
   const handleChange = (e) => {
@@ -351,8 +351,8 @@ const handleSubmit = async (e) => {
       </div>
 
       <div className="text-center mt-8">
-        <button type="submit" className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-          Save Portfolio
+        <button disabled={isSavingData} type="submit" className={`px-6 py-3 ${isSavingData ? `bg-blue-400` : `bg-blue-600` } text-white rounded-lg hover:bg-blue-700 transition-colors`}>
+          {isSavingData ? 'Saving Please Wait' : 'Save your Info'}
         </button>
       </div>
     </form>

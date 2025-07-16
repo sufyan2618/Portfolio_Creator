@@ -122,15 +122,15 @@ const useAuthStore = create((set) => ({
         }
     },
     GetPortfolioPage: async (userId, designId) => {
-        set({ isGettingInfo: true });
+        set({ isCreatingPortfolio: true })
         try {
             const response = await axiosInstance.get(`/info/portfolio/${userId}/${designId}`);
-            return response.data; // Return the portfolio page data to the component
+            return response.data; 
         } catch (error) {
             console.error('GetPortfolioPage error:', error);
-            throw error; // Propagate the error to the component
+            throw error; 
         } finally {
-            set({ isGettingInfo: false });
+            set({ isCreatingPortfolio: false });
         }
     }
 })

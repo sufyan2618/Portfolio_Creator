@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import useAuthStore from '../Store/useAuthStore'
 import { useNavigate } from 'react-router-dom'
 const Header = () => {
-    const { authUser, Logout, userInfo } = useAuthStore()
+    const { authUser, Logout, userInfo, isLoggingOut } = useAuthStore()
     const letter = authUser?.name?.charAt(0)?.toUpperCase() || '';
     const id = authUser?._id || '';
     const navigate = useNavigate();
@@ -39,7 +39,7 @@ const Header = () => {
                     {authUser ? (
                         <>
                         <button onClick={handleProfile} className='text-white border-2 rounded-lg h-8 w-8 flex justify-center items-center cursor-pointer'>{letter}</button>
-                        <button onClick={handleLogout} className='text-white text-lg font-bold cursor-pointer'>Logout</button>
+                        <button disabled={isLoggingOut} onClick={handleLogout} className='text-white text-lg font-bold cursor-pointer'>Logout</button>
                         </>
                     ): (
                         <Link to="/signin" className="text-white text-lg font-bold">Sign In</Link>

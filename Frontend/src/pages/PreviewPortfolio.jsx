@@ -43,7 +43,7 @@ const PortfolioPreview = () => {
 
 
   if (isCreatingPortfolio) {
-    return <div>Loading Preview...</div>;
+    return <div className='flex items-center justify-center text-xl'>Loading Preview...</div>;
   }
 
   return (
