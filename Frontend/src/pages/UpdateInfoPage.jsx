@@ -5,16 +5,17 @@ import { useNavigate } from 'react-router-dom';
 
 const initialState = {
   personalInfo: {
-  fullName: '',
-  email: '',
-  phone: '',
-  address: '',
-  website: '',
-  linkedin: '',
-  github: '',
-  twitter: '',
-  profilePictureUrl: '',
+    fullName: '',
+    email: '',
+    phone: '',
+    address: '',
+    website: '',
+    linkedin: '',
+    github: '',
+    twitter: '',
+    profilePicture: null,
   },
+  services: [ { title: '', description: '' }],
   about: '',
   skills: '',
   education: [
@@ -24,7 +25,7 @@ const initialState = {
     { company: '', position: '', startDate: '', endDate: '', currentlyWorking: false, description: '' }
   ],
   projects: [
-    { title: '', description: '', technologies: '', projectUrl: '', imageUrls: '' }
+    { title: '', description: '', technologies: '', projectUrl: '', image: null }
   ],
   certifications: [
     { name: '', issuer: '', date: '', credentialUrl: '' }
@@ -39,15 +40,24 @@ const initialState = {
 
 const UpdateInfoPage = () => {
   const [formData, setFormData] = useState(initialState);
-  const {UpdateInfo, authUser} = useAuthStore();
+  const { UpdateInfo, authUser } = useAuthStore();
   const id = authUser?._id || null;
   // Handle simple input changes
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value
-    }));
+
+    const { name, value, files } = e.target;
+    if (files) {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: files[0] // Assuming single file upload
+      }));
+    }
+    else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value
+      }));
+    };
   };
 
   const navigate = useNavigate();
@@ -90,44 +100,67 @@ const UpdateInfoPage = () => {
     }));
   };
 
-  // Submit handler
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Transform skills, interests, technologies, imageUrls to arrays if not already
-   
-    const dataToSend = {
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const dataForBackend = {
       personalInfo: {
-        fullName: formData.fullName,
-        email: formData.email,
-        phone: formData.phone,
-        address: formData.address,
-        website: formData.website,
-        linkedin: formData.linkedin,
-        github: formData.github,
-        twitter: formData.twitter,
-        profilePictureUrl: formData.profilePictureUrl
+         
+          fullName: formData.personalInfo.fullName,
+          email: formData.personalInfo.email,
+          phone: formData.personalInfo.phone,
+          address: formData.personalInfo.address,
+          website: formData.personalInfo.website,
+          linkedin: formData.personalInfo.linkedin,
+          github: formData.personalInfo.github,
+          twitter: formData.personalInfo.twitter,
       },
       about: formData.about,
       skills: typeof formData.skills === 'string' ? formData.skills.split(',').map(s => s.trim()) : formData.skills,
       interests: typeof formData.interests === 'string' ? formData.interests.split(',').map(i => i.trim()) : formData.interests,
       education: formData.education,
       workExperience: formData.workExperience,
+
       projects: formData.projects.map(p => ({
-        ...p,
-        technologies: typeof p.technologies === 'string' ? p.technologies.split(',').map(t => t.trim()) : p.technologies,
-        imageUrls: typeof p.imageUrls === 'string' ? p.imageUrls.split(',').map(i => i.trim()) : p.imageUrls
+          title: p.title,
+          description: p.description,
+          projectUrl: p.projectUrl,
+          technologies: typeof p.technologies === 'string' ? p.technologies.split(',').map(t => t.trim()) : p.technologies,
       })),
       certifications: formData.certifications,
       languages: formData.languages,
       socialLinks: formData.socialLinks,
-      additionalInfo: formData.additionalInfo
-    };
-
-    const res = await UpdateInfo(dataToSend, id);
-    if(res){
-        navigate(`/profile/:${id}`);
-    }
+      additionalInfo: formData.additionalInfo,
+      services: formData.services,
   };
+
+  const form = new FormData();
+
+  form.append('id', id);
+
+
+  form.append('data', JSON.stringify(dataForBackend));
+
+
+  if (formData.personalInfo.profilePicture) {
+      form.append('profileImage', formData.personalInfo.profilePicture);
+  }
+
+
+  formData.projects.forEach((project) => {
+      if (project.image) {
+          form.append('projectImages', project.image);
+      }
+  });
+
+  const res = await UpdateInfo(form); 
+
+  if (res) {
+      navigate(`/profile/${id}`); 
+  }
+};
+
 
   return (
     <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-6 bg-white dark:bg-gray-900 rounded-lg shadow-md space-y-6 text-gray-800 dark:text-gray-200">
@@ -170,13 +203,39 @@ const UpdateInfoPage = () => {
           <input type="url" name="twitter" value={formData.twitter} onChange={handleChange} placeholder="Enter your Twitter profile URL" className="w-full px-4 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors" />
         </div>
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium mb-2">Profile Picture URL</label>
-          <input type="url" name="profilePictureUrl" value={formData.profilePictureUrl} onChange={handleChange} placeholder="Enter URL of your profile picture" className="w-full px-4 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors" />
+          <label>
+            Profile Picture
+            <input
+              type="file"
+              accept="image/*"
+              onChange={e => {
+                setFormData(prev => ({
+                  ...prev,
+                  personalInfo: { ...prev.personalInfo, profilePicture: e.target.files[0] }
+                }));
+              }}
+              className="mt-2"
+            />
+          </label>
         </div>
         <div className="md:col-span-2">
           <label className="block text-sm font-medium mb-2">About You</label>
           <textarea name="about" value={formData.about} onChange={handleChange} placeholder="Write a short bio or summary about yourself" rows={4} className="w-full px-4 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors" />
         </div>
+
+        { /* Services Offered */}
+        <div className="md:col-span-2">
+          <label className="block text-sm font-medium mb-2">Services Offered</label>
+          {formData.services.map((service, idx) => (
+            <div key={idx} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <input type="text" placeholder="Service Title" value={service.title} onChange={e => handleDynamicArrayChange(idx, 'title', e.target.value, 'services')} className="px-2 py-1 border rounded" />
+              <input type="text" placeholder="Service Description" value={service.description} onChange={e => handleDynamicArrayChange(idx, 'description', e.target.value, 'services')} className="px-2 py-1 border rounded" />
+            </div>
+          ))}
+
+          <button type="button" onClick={() => handleAddEntry('services', { title: '', description: '' })} className="px-4 py-2 bg-blue-500 text-white rounded">Add Service</button>
+        </div>
+
         <div className="md:col-span-2">
           <label className="block text-sm font-medium mb-2">Skills (comma separated)</label>
           <input type="text" name="skills" value={formData.skills} onChange={handleChange} placeholder="e.g. JavaScript, React, Node.js" className="w-full px-4 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors" />
@@ -246,7 +305,18 @@ const UpdateInfoPage = () => {
             <input type="text" placeholder="Description" value={proj.description} onChange={e => handleDynamicArrayChange(idx, 'description', e.target.value, 'projects')} className="px-2 py-1 border rounded" />
             <input type="text" placeholder="Technologies (comma separated)" value={proj.technologies} onChange={e => handleDynamicArrayChange(idx, 'technologies', e.target.value, 'projects')} className="px-2 py-1 border rounded" />
             <input type="url" placeholder="Project URL" value={proj.projectUrl} onChange={e => handleDynamicArrayChange(idx, 'projectUrl', e.target.value, 'projects')} className="px-2 py-1 border rounded" />
-            <input type="text" placeholder="Image URLs (comma separated)" value={proj.imageUrls} onChange={e => handleDynamicArrayChange(idx, 'imageUrls', e.target.value, 'projects')} className="px-2 py-1 border rounded" />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={e => {
+                const file = e.target.files[0];
+                setFormData(prev => {
+                  const updated = [...prev.projects];
+                  updated[idx].image = file;
+                  return { ...prev, projects: updated };
+                });
+              }}
+            />
           </div>
         ))}
         <button type="button" onClick={() => handleAddEntry('projects', { title: '', description: '', technologies: '', projectUrl: '', imageUrls: '' })} className="px-4 py-2 bg-blue-500 text-white rounded">Add Project</button>

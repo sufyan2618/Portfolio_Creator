@@ -13,22 +13,22 @@ const useAuthStore = create((set) => ({
     isLoggingOut: false,
     isCheckingAuth: false,
 
-    Signup: async (userData) =>{
+    Signup: async (userData) => {
         set({ isSigningUp: true });
         try {
             const response = await axiosInstance.post('/auth/signup', userData);
             toast.success('User created successfully');
-            return response.data; 
+            return response.data;
         } catch (error) {
             console.error('Signup error:', error);
             toast.error(`Signup failed. ${error.response?.data?.message || 'An error occurred.'}`);
             throw error; // Propagate the error to the component
         }
-        finally{
+        finally {
             set({ isSigningUp: false });
         }
     },
-    Login: async(data) => {
+    Login: async (data) => {
         set({ isLoggingIn: true });
         try {
             const response = await axiosInstance.post('/auth/login', data);
@@ -40,7 +40,7 @@ const useAuthStore = create((set) => ({
             toast.error(`Login failed. ${error.response?.data?.message}.`);
             throw error; // Propagate the error to the component
         }
-        finally{
+        finally {
             set({ isLoggingIn: false });
         }
     },
@@ -55,7 +55,7 @@ const useAuthStore = create((set) => ({
             toast.error(`Logout failed. ${error.response?.data?.message}.`);
             throw error; // Propagate the error to the component
         }
-        finally{
+        finally {
             set({ isLoggingOut: false });
         }
     },
@@ -66,17 +66,17 @@ const useAuthStore = create((set) => ({
             set({ authUser: res.data })
         } catch (error) {
             console.error(error)
-            set({authUser: null})
+            set({ authUser: null })
         }
-        finally{
-            set({isCheckingAuth: false})
+        finally {
+            set({ isCheckingAuth: false })
         }
 
     },
     SaveData: async (data, id) => {
         set({ isSavingData: true });
         try {
-            const response = await axiosInstance.post('/info/store-info',{id, data});
+            const response = await axiosInstance.post('/info/store-info', { id, data });
             toast.success('Information saved successfully');
             return response.data; // Return the saved data to the component
         } catch (error) {
@@ -89,20 +89,24 @@ const useAuthStore = create((set) => ({
         }
     },
 
-    UpdateInfo : async (data, id) => {
+
+    UpdateInfo: async (formData) => { // It only needs the FormData object
         set({ isSavingData: true });
         try {
-            const response = await axiosInstance.post('/info/update-info', { id, data });
+
+            const response = await axiosInstance.post("/info/update-info", formData);
+            set({ userInfo: response.data.info });
             toast.success('Information updated successfully');
-            return response.data; // Return the updated data to the component
+            return response.data;
         } catch (error) {
             console.error('UpdateInfo error:', error);
             toast.error(`Failed to update information. ${error.response?.data?.message || 'An error occurred.'}`);
-            throw error; 
+            throw error;
         } finally {
             set({ isSavingData: false });
         }
     },
+
 
     GetInfo: async (id) => {
         set({ isGettingInfo: true });

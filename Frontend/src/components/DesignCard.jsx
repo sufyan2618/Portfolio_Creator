@@ -16,7 +16,7 @@ const DesignCard = ({ design }) => {
 
   const handleStaticRouting = () => {
     // Use the design's specific path
-    window.open(`/designs/${design.designId}.html`, '_blank');
+    window.open(`${design.htmlFileUrl}`, '_blank');
   };
 
   const handleDynamicRouting = async () => {

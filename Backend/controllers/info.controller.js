@@ -1,12 +1,9 @@
 import Info from '../models/info.model.js';
 import User from '../models/user.model.js';
-import fs from 'fs';
-import path from 'path';
 import Handlebars from 'handlebars';
-import { fileURLToPath } from 'url';
 import formatDate from '../util/formatDate.js';
 import Design from '../models/design.model.js';
-
+import { uploadToCloudinary } from '../lib/cloudinary.js';
 
 
 Handlebars.registerHelper('formatDate', formatDate);
@@ -59,11 +56,17 @@ export const StoreInfo = async (req, res) => {
 };
 
 export const UpdateInfo = async (req, res) => {
+    console.log(req.body);
     try {
         const { id, data } = req.body;
+        console.log(id);
+        const profileImage = req.files?.profileImage?.[0];
+        const projectImages = req.files?.projectImage || [];
+
 
         // Check if user exists
         const user = await User.findById(id);
+        console.log('User found:', user);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -73,6 +76,48 @@ export const UpdateInfo = async (req, res) => {
             return res.status(400).json({ message: 'Invalid information data' });
         }
 
+        // If profileImage is provided, upload it to Cloudinary
+        let profileImageUrl = '';
+        if (profileImage) {
+            const base64Image = `data:${profileImage.mimetype};base64,${profileImage.buffer.toString("base64")}`;
+            profileImageUrl = await uploadToCloudinary(base64Image, 'profile_images');
+            if (!profileImageUrl) {
+                return res.status(500).json({ message: 'Failed to upload profile image' });
+            }
+            // Add profileImageUrl to personalInfo if it exists
+            if (!data.personalInfo) {
+                data.personalInfo = {};
+            }
+            data.personalInfo.profileImageUrl = profileImageUrl;
+        }
+        // If projectImages are provided, upload them to Cloudinary
+        let projectImageUrls = [];
+        if (projectImages.length > 0) {
+            for (const projectImage of projectImages) {
+                const base64Image = `data:${projectImage.mimetype};base64,${projectImage.buffer.toString("base64")}`;
+                const projectImageUrl = await uploadToCloudinary(base64Image, 'project_images');
+                if (!projectImageUrl) {
+                    return res.status(500).json({ message: 'Failed to upload project image' });
+                }
+                projectImageUrls.push(projectImageUrl);
+            }
+            // Add projectImageUrls to projects if it exists
+            if (!data.projects) {
+                data.projects = [];
+            }
+            data.projects = data.projects.map((project, index) => {
+                if (projectImageUrls[index]) {
+                    return {
+                        ...project,
+                        projectImageUrl: projectImageUrls[index] // Add the uploaded image URL
+                    };
+                }
+                return project; // Return the project unchanged if no image URL is available
+            });
+        }
+
+
+
         // Find and update the info document
         const updatedInfo = await Info.findOneAndUpdate(
             { userId: id },
@@ -80,6 +125,7 @@ export const UpdateInfo = async (req, res) => {
                 personalInfo: data.personalInfo || {},
                 services: data.services || [],
                 about: data.about || '',
+                services: data.services || [],
                 skills: data.skills || [],
                 education: data.education || [],
                 workExperience: data.workExperience || [],
@@ -145,7 +191,6 @@ export const GetPortfolioPage = async (req, res) => {
         }
 
 
-        // 2. Prepare data for the template
         const templateData = {
             ...portfolioData,
             education: (portfolioData.education || []).map(edu => ({ ...edu, startDate: formatDate(edu.startDate), endDate: formatDate(edu.endDate) })),
@@ -154,21 +199,12 @@ export const GetPortfolioPage = async (req, res) => {
             hasEducationOrExperience: (portfolioData.education?.length > 0) || (portfolioData.workExperience?.length > 0)
         };
 
-        // // 3. Construct the correct path to your template
-        // const __filename = fileURLToPath(import.meta.url);
-        // const __dirname = path.dirname(__filename);
-        
-        // // --- THIS IS THE CORRECTED LINE ---
-        // // It navigates from /backend/controllers up to /backend, then into /public/templates
-        // const templatePath = path.join(__dirname, '..', 'public', 'templates', `${designId}.hbs`);
-        
-        // 4. Read the template file
+
         const response = await fetch(designData.hbsFileUrl)
 
         const templateString = await response.text();
 
         
-        // 5. Compile and send the final HTML
         const compiledTemplate = Handlebars.compile(templateString);
         const finalHtml = compiledTemplate(templateData);
 
@@ -176,13 +212,7 @@ export const GetPortfolioPage = async (req, res) => {
 
     } catch (error) {
         
-        // 6. Improved error logging remains for debugging
         console.error("Error in getPortfolioPage:", error); 
-
-        if (error.code === 'ENOENT') {
-            return res.status(404).send(`<h1>Design template not found.</h1><p>Checked path: ${error.path}</p>`);
-        }
-
         res.status(500).send(`<h1>Server Error</h1><p>An unexpected error occurred. Check the server console for details.</p><pre>${error.message}</pre>`);
     }
 };
