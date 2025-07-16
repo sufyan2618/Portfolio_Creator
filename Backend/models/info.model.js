@@ -54,7 +54,7 @@ const InfoSchema = new mongoose.Schema({
       description: { type: String },
       technologies: [{ type: String }],
       projectUrl: { type: String },
-      imageUrls: [{ type: String }]
+      imageUrls: [{ type: String, required: true }], 
     }
   ],
 
@@ -70,11 +70,11 @@ const InfoSchema = new mongoose.Schema({
   languages: [
     {
       language: { type: String },
-      proficiency: { type: String } // e.g., Beginner, Intermediate, Fluent
+      proficiency: { type: String } 
     }
   ],
 
-  interests: [{ type: String }], // Hobbies or interests
+  interests: [{ type: String }], 
 
   socialLinks: {
     facebook: { type: String },
@@ -83,7 +83,7 @@ const InfoSchema = new mongoose.Schema({
     other: { type: String }
   },
 
-  additionalInfo: { type: String }, // Any extra info
+  additionalInfo: { type: String }, 
 
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }

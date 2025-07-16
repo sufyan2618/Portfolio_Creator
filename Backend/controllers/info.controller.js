@@ -11,14 +11,11 @@ Handlebars.registerHelper('formatDate', formatDate);
 export const StoreInfo = async (req, res) => {
     try {
         const { id, data } = req.body;
-
-        // Check if user exists
         const user = await User.findById(id);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // Validate data
         if (!data || typeof data !== 'object') {
             return res.status(400).json({ message: 'Invalid information data' });
         }
@@ -29,7 +26,7 @@ export const StoreInfo = async (req, res) => {
             return res.status(400).json({ message: 'Information already exists for this user' });
         }
 
-        // Prepare data according to the schema using the 'data' object
+
         const info = new Info({
             userId: id, 
             personalInfo: data.personalInfo || {},
@@ -56,98 +53,58 @@ export const StoreInfo = async (req, res) => {
 };
 
 export const UpdateInfo = async (req, res) => {
-    console.log(req.body);
+
+
     try {
-        const { id, data } = req.body;
-        console.log(id);
-        const profileImage = req.files?.profileImage?.[0];
-        const projectImages = req.files?.projectImage || [];
+        const { id } = req.body;
+        if (!id) {
+            return res.status(400).json({ message: 'User ID is missing' });
+        }
+        
+        const data = JSON.parse(req.body.data);
+
+        const profileImageFile = req.files?.profileImage?.[0];
+        const projectImageFiles = req.files?.projectImages || [];
 
 
-        // Check if user exists
         const user = await User.findById(id);
-        console.log('User found:', user);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // Validate data
-        if (!data || typeof data !== 'object') {
-            return res.status(400).json({ message: 'Invalid information data' });
+        const uploadPromises = [];
+        if (profileImageFile) {
+            const b64 = `data:${profileImageFile.mimetype};base64,${profileImageFile.buffer.toString("base64")}`;
+            uploadPromises.push(uploadToCloudinary(b64, 'profile_images'));
         }
+        projectImageFiles.forEach(file => {
+            const b64 = `data:${file.mimetype};base64,${file.buffer.toString("base64")}`;
+            uploadPromises.push(uploadToCloudinary(b64, 'project_images'));
+        });
 
-        // If profileImage is provided, upload it to Cloudinary
-        let profileImageUrl = '';
-        if (profileImage) {
-            const base64Image = `data:${profileImage.mimetype};base64,${profileImage.buffer.toString("base64")}`;
-            profileImageUrl = await uploadToCloudinary(base64Image, 'profile_images');
-            if (!profileImageUrl) {
-                return res.status(500).json({ message: 'Failed to upload profile image' });
-            }
-            // Add profileImageUrl to personalInfo if it exists
-            if (!data.personalInfo) {
-                data.personalInfo = {};
-            }
-            data.personalInfo.profileImageUrl = profileImageUrl;
+        const uploadedUrls = await Promise.all(uploadPromises);
+
+
+        if (profileImageFile) {
+            data.personalInfo.profilePictureUrl = uploadedUrls.shift();
         }
-        // If projectImages are provided, upload them to Cloudinary
-        let projectImageUrls = [];
-        if (projectImages.length > 0) {
-            for (const projectImage of projectImages) {
-                const base64Image = `data:${projectImage.mimetype};base64,${projectImage.buffer.toString("base64")}`;
-                const projectImageUrl = await uploadToCloudinary(base64Image, 'project_images');
-                if (!projectImageUrl) {
-                    return res.status(500).json({ message: 'Failed to upload project image' });
-                }
-                projectImageUrls.push(projectImageUrl);
-            }
-            // Add projectImageUrls to projects if it exists
-            if (!data.projects) {
-                data.projects = [];
-            }
-            data.projects = data.projects.map((project, index) => {
-                if (projectImageUrls[index]) {
-                    return {
-                        ...project,
-                        projectImageUrl: projectImageUrls[index] // Add the uploaded image URL
-                    };
-                }
-                return project; // Return the project unchanged if no image URL is available
-            });
-        }
+        data.projects.forEach((project, index) => {
+            project.imageUrls = [uploadedUrls[index]]; // Direct 1-to-1 mapping
+        });
 
 
-
-        // Find and update the info document
+        console.log("10. Attempting to save to MongoDB...");
         const updatedInfo = await Info.findOneAndUpdate(
             { userId: id },
-            {
-                personalInfo: data.personalInfo || {},
-                services: data.services || [],
-                about: data.about || '',
-                services: data.services || [],
-                skills: data.skills || [],
-                education: data.education || [],
-                workExperience: data.workExperience || [],
-                projects: data.projects || [],
-                certifications: data.certifications || [],
-                languages: data.languages || [],
-                interests: data.interests || [],
-                socialLinks: data.socialLinks || {},
-                additionalInfo: data.additionalInfo || ''
-            },
-            { new: true, runValidators: true }
+            { $set: data },
+            { new: true, upsert: true, runValidators: true }
         );
 
-        if (!updatedInfo) {
-            return res.status(404).json({ message: 'Information not found for this user' });
-        }
-
         res.status(200).json({ message: 'Information updated successfully', info: updatedInfo });
-        
+
     } catch (error) {
-        console.error('Error updating information:', error);
-        res.status(500).json({ message: `Error updating information: ${error.message}` });
+        console.error(error);
+        res.status(500).json({ message: `Server error: ${error.message}` });
     }
 }
 

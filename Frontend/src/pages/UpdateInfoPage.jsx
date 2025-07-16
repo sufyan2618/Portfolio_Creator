@@ -104,6 +104,12 @@ const UpdateInfoPage = () => {
 const handleSubmit = async (e) => {
   e.preventDefault();
 
+  const incompleteProject = formData.projects.find(p => !p.title || !p.image);
+  if (incompleteProject) {
+      toast.error('Every project must have a title and an image.');
+      return; // Stop the submission
+  }
+
   const dataForBackend = {
       personalInfo: {
          
@@ -149,11 +155,10 @@ const handleSubmit = async (e) => {
 
 
   formData.projects.forEach((project) => {
-      if (project.image) {
-          form.append('projectImages', project.image);
-      }
+     form.append('projectImages', project.image);
   });
 
+  
   const res = await UpdateInfo(form); 
 
   if (res) {
@@ -208,6 +213,7 @@ const handleSubmit = async (e) => {
             <input
               type="file"
               accept="image/*"
+              required
               onChange={e => {
                 setFormData(prev => ({
                   ...prev,
@@ -308,6 +314,8 @@ const handleSubmit = async (e) => {
             <input
               type="file"
               accept="image/*"
+              className="px-2 py-1 border rounded"
+              required
               onChange={e => {
                 const file = e.target.files[0];
                 setFormData(prev => {

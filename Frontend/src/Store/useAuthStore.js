@@ -73,12 +73,12 @@ const useAuthStore = create((set) => ({
         }
 
     },
-    SaveData: async (data, id) => {
+    SaveData: async (formData) => {
         set({ isSavingData: true });
         try {
-            const response = await axiosInstance.post('/info/store-info', { id, data });
+            const response = await axiosInstance.post('/info/store-info', formData);
             toast.success('Information saved successfully');
-            return response.data; // Return the saved data to the component
+            return response.data; 
         } catch (error) {
             console.error('SaveData error:', error);
             toast.error(`Failed to save data. ${error.response?.data?.message || 'An error occurred.'}`);
