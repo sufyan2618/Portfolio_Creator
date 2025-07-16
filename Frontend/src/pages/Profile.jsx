@@ -5,6 +5,7 @@ import useAuthStore from '../Store/useAuthStore';
 const Profile = () => {
 
     const {userInfo} = useAuthStore();
+    console.log(userInfo);
     const navigate = useNavigate();
     
 

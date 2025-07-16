@@ -15,31 +15,20 @@ import PortfolioPreview from './pages/PreviewPortfolio'
 import { useEffect } from 'react'
 function App() {
 
-  const {authUser, checkAuth, GetInfo} = useAuthStore()
-
+  const {authUser, checkAuth, GetInfo, userInfo} = useAuthStore()
 
   useEffect(() => {
-    const fetchAuth = async () => {
-      try {
-        await checkAuth();
-      } catch (error) {
-        console.error('Error checking authentication:', error);
-      }
-    };
-    const fetchData = async () => {
-      if (authUser) {
-        try {
-          await GetInfo(authUser._id);
-        } catch (error) {
-          console.error('Error fetching user info:', error);
-        }
-      }
-    }
-    fetchData();
-    fetchAuth();
-  }
-  , [checkAuth, authUser]);
+    checkAuth();
+    console.log(authUser)
+  }, [])
 
+  useEffect(() => {
+    if (authUser) {
+      GetInfo(authUser._id);
+    }
+    console.log(userInfo);
+  }
+  , [authUser, GetInfo]);
 
   return (
     <>
