@@ -183,9 +183,6 @@ const Header = () => {
                             ) : (
                                 <NavLink to="/portfolio_info" icon={Info} mobile>Insert Info</NavLink>
                             )}
-                            {authUser && (
-                                <NavLink to="/add_design" icon={Plus} mobile>Add Design</NavLink>
-                            )}
                             
                             {/* Mobile Auth Section */}
                             <div className="pt-4 border-t border-slate-800/50">
