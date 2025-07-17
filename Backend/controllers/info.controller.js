@@ -10,51 +10,57 @@ Handlebars.registerHelper('formatDate', formatDate);
 
 export const StoreInfo = async (req, res) => {
     try {
-        const { id, data } = req.body;
+        const { id } = req.body;
+        if (!id) {
+            return res.status(400).json({ message: 'User ID is missing' });
+        }
+        
+        const data = JSON.parse(req.body.data);
+
+        const profileImageFile = req.files?.profileImage?.[0];
+        const projectImageFiles = req.files?.projectImages || [];
+
+
         const user = await User.findById(id);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        if (!data || typeof data !== 'object') {
-            return res.status(400).json({ message: 'Invalid information data' });
+        const uploadPromises = [];
+        if (profileImageFile) {
+            const b64 = `data:${profileImageFile.mimetype};base64,${profileImageFile.buffer.toString("base64")}`;
+            uploadPromises.push(uploadToCloudinary(b64, 'profile_images'));
         }
-
-
-        const existingInfo = await Info.findOne({ userId: id });
-        if (existingInfo) {
-            return res.status(400).json({ message: 'Information already exists for this user' });
-        }
-
-
-        const info = new Info({
-            userId: id, 
-            personalInfo: data.personalInfo || {},
-            services: data.services || [],
-            about: data.about || '',
-            skills: data.skills || [],
-            education: data.education || [],
-            workExperience: data.workExperience || [],
-            projects: data.projects || [],
-            certifications: data.certifications || [],
-            languages: data.languages || [],
-            interests: data.interests || [],
-            socialLinks: data.socialLinks || {},
-            additionalInfo: data.additionalInfo || ''
+        projectImageFiles.forEach(file => {
+            const b64 = `data:${file.mimetype};base64,${file.buffer.toString("base64")}`;
+            uploadPromises.push(uploadToCloudinary(b64, 'project_images'));
         });
 
-        await info.save();
+        const uploadedUrls = await Promise.all(uploadPromises);
 
-        res.status(201).json({ message: 'Information stored successfully', info });
+
+        if (profileImageFile) {
+            data.personalInfo.profilePictureUrl = uploadedUrls.shift();
+        }
+        data.projects.forEach((project, index) => {
+            project.imageUrls = [uploadedUrls[index]]; // Direct 1-to-1 mapping
+        });
+
+        const newInfo = new Info({
+            userId: id,
+            ...data
+        })
+        await newInfo.save();
+
+        res.status(200).json({ message: 'Information added successfully', info: newInfo });
+
     } catch (error) {
-        console.error('Error storing information:', error);
-        res.status(500).json({ message: `Error storing information: ${error.message}` });
+        console.error(error);
+        res.status(500).json({ message: `Server error: ${error.message}` });
     }
 };
 
 export const UpdateInfo = async (req, res) => {
-
-
     try {
         const { id } = req.body;
         if (!id) {
