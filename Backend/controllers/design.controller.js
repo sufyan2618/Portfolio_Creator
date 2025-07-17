@@ -37,17 +37,12 @@ export const AddDesign = async (req, res) => {
         const count = await Design.countDocuments();
         const newCount = count + 1;
 
-        const htmlFilePath = `html_files/design${newCount}.html`;
         const hbsFilePath = `hbs_files/design${newCount}.hbs`;
-        const htmlType = 'text/html';
         const hbsType = 'text/x-handlebars-template';
 
 
-        const htmlFileUrl = await uploadFile(htmlFilePath, htmlFile.buffer, htmlType);
         const hbsFileUrl = await uploadFile(hbsFilePath, hbsFile.buffer, hbsType);
 
-        console.log('HTML File URL:', htmlFileUrl);
-        console.log('HBS File URL:', hbsFileUrl);
 
         if (!htmlFileUrl || !hbsFileUrl) {
             return res.status(500).json({ message: 'Failed to upload files' });
