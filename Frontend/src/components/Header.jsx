@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, User, LogOut, Settings, Home, Palette, Info, Plus, Sparkles } from 'lucide-react'
+import { Menu, X, User, LogOut, Settings, Home, Palette, Info, Plus, Sparkles, Mail } from 'lucide-react'
 import useAuthStore from '../Store/useAuthStore'
 import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
-    const { authUser, Logout, userInfo, isLoggingOut } = useAuthStore()
+    const { authUser, Logout, userInfo, isLoggingOut, isCheckingAuth } = useAuthStore()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false)
     const letter = authUser?.name?.charAt(0)?.toUpperCase() || ''
@@ -79,16 +79,13 @@ const Header = () => {
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
                     <Link to="/" className="flex items-center space-x-3 group">
-                        <div className="relative">
-                            <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-purple-500/30 transition-all duration-300">
-                                <span className="text-white font-bold text-lg">P</span>
-                            </div>
-                            <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <Sparkles className="w-3 h-3 text-white m-0.5" />
-                            </div>
-                        </div>
+                        <img
+                            src="/logo.webp"
+                            alt="Logo"
+                            className="w-12 h-12  rounded-xl shadow-lg"
+                        />
                         <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                            Portfola
+                            Online Identity
                         </span>
                     </Link>
 
@@ -96,19 +93,13 @@ const Header = () => {
                     <div className="hidden md:flex items-center space-x-8">
                         <NavLink to="/" icon={Home}>Home</NavLink>
                         <NavLink to="/designs" icon={Palette}>Designs</NavLink>
-                        {authUser && userInfo ? (
-                            <NavLink to="/update_info" icon={Settings}>Update Info</NavLink>
-                        ) : (
-                            <NavLink to="/portfolio_info" icon={Info}>Insert Info</NavLink>
-                        )}
-                        {authUser && (
-                            <NavLink to="/add_design" icon={Plus}>Add Design</NavLink>
-                        )}
+                        <NavLink to={`/contact_us`} icon={Mail}>Contact Us</NavLink>
                     </div>
 
                     {/* Desktop Auth Section */}
                     <div className="hidden md:flex items-center space-x-4">
-                        {authUser ? (
+                        {isCheckingAuth ? ( <div>Loading</div>): 
+                        authUser ? (
                             <div className="relative profile-dropdown">
                                 <button
                                     onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
@@ -131,7 +122,7 @@ const Header = () => {
                                             onClick={handleProfile}
                                             className="flex items-center gap-3 w-full px-4 py-3 text-gray-300 hover:text-white hover:bg-slate-700/50 transition-all duration-200 group"
                                         >
-                                            <User className="w-4 h-4 group-hover:text-purple-400 transition-colors" />
+                                            <Us er className="w-4 h-4 group-hover:text-purple-400 transition-colors" />
                                             Profile
                                         </button>
                                         <button

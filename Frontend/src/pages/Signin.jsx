@@ -52,11 +52,15 @@ const Signin = () => {
                 <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
             </div>
 
-            <div className="relative z-10 w-full max-w-md">
+            <div className="relative z-10 w-full py-10 max-w-md">
                 {/* Logo/Brand */}
-                <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl mb-4">
-                        <span className="text-white font-bold text-2xl">P</span>
+                <div className="text-center mb-8 flex items-center flex-col space-y-2">
+                    <div className="mb-4 border-2 rounded-full w-25 h-25 border-slate-700/50 pb-4">
+                    <img
+                        src="/logo.webp"
+                        alt="Logo"
+                        className="w-22 h-22 mx-auto mb-2 object-cover"
+                    />
                     </div>
                     <h1 className="text-3xl font-bold text-white mb-2">
                         Welcome Back

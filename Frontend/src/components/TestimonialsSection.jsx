@@ -7,15 +7,15 @@ const TestimonialsSection = () => {
       name: "Sarah Johnson",
       role: "Frontend Developer",
       image: "/api/placeholder/60/60",
-      rating: 5,
-      text: "Portfola made creating my portfolio incredibly easy! The templates are modern and the deployment feature is a game-changer."
+      rating: 4,
+      text: "Online Identity made creating my portfolio incredibly easy! The templates are modern and the deployment feature is a game-changer."
     },
     {
-      name: "Michael Chen",
-      role: "UI/UX Designer",
+      name: "Muhammad Arslan",
+      role: "Electrical Engineer",
       image: "/api/placeholder/60/60",
       rating: 5,
-      text: "I love how quickly I can iterate on designs. The platform is intuitive and the results are always professional."
+      text: "I love how quickly I can iterate on designs. The platform is really helpful for non-developers to create their online identity."
     },
     {
       name: "Emily Rodriguez",

@@ -11,6 +11,8 @@ import UpdateInfoPage from './pages/UpdateInfoPage'
 import useAuthStore from './Store/useAuthStore'
 import AddDesign from './pages/AddDesign'
 import PortfolioPreview from './pages/PreviewPortfolio'
+import ContactUs from './pages/ContactUs'
+import Layout from './components/Layout'
 
 import { useEffect } from 'react'
 function App() {
@@ -33,15 +35,16 @@ function App() {
   return (
     <>
     <Routes>
-      <Route path="/" element={<Home/>}/>
-      <Route path="/designs" element={<Designs/>}/>
+      <Route path="/" element={<Layout>  <Home/> </Layout>}/>
+      <Route path="/designs" element={<Layout> <Designs/> </Layout>}/>
       <Route path='/signup'element={<Signup/>}/>
       <Route path='/signin' element={<Signin/>}/>
-      <Route path='/portfolio_info' element={<InfoPage/>}/>
-      <Route path='/profile/:id' element={<Profile/>}/>
-      <Route path='/update_info' element={<UpdateInfoPage/>}/>
+      <Route path='/portfolio_info' element={<Layout><InfoPage/></Layout>}/>
+      <Route path='/profile/:id' element={<Layout> <Profile/> </Layout>}/>
+      <Route path='/update_info' element={<Layout> <UpdateInfoPage/> </Layout>}/>
       <Route path='/add_design' element={<AddDesign/>}/>
-      <Route path='/portfolio_preview/:userId/:designId' element={<PortfolioPreview/>}/>
+      <Route path='/contact_us' element={<Layout> <ContactUs/> </Layout>}/>
+      <Route path='/portfolio_preview/:userId/:designId' element={ <PortfolioPreview/>}/>
     </Routes>
     <Toaster/>
     </>
