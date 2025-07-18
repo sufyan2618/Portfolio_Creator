@@ -13,6 +13,7 @@ import AddDesign from './pages/AddDesign'
 import PortfolioPreview from './pages/PreviewPortfolio'
 import ContactUs from './pages/ContactUs'
 import Layout from './components/Layout'
+import AdminLogin from './pages/AdminLogin'
 
 import { useEffect } from 'react'
 function App() {
@@ -42,9 +43,10 @@ function App() {
       <Route path='/portfolio_info' element={<Layout><InfoPage/></Layout>}/>
       <Route path='/profile/:id' element={<Layout> <Profile/> </Layout>}/>
       <Route path='/update_info' element={<Layout> <UpdateInfoPage/> </Layout>}/>
-      <Route path='/add_design' element={<AddDesign/>}/>
+      <Route path='/admin/add_design' element={<AddDesign/>}/>
       <Route path='/contact_us' element={<Layout> <ContactUs/> </Layout>}/>
       <Route path='/portfolio_preview/:userId/:designId' element={ <PortfolioPreview/>}/>
+      <Route path='/admin/admin_login' element={<AdminLogin/>}/>
     </Routes>
     <Toaster/>
     </>

@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import InfoRouter from './routes/info.router.js';
 import Designrouter from './routes/design.router.js';
+import Adminrouter from './routes/admin.router.js';
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -23,6 +24,7 @@ app.use(cors({
 app.use('/api/auth', Authrouter);
 app.use('/api/info', InfoRouter);
 app.use('/api/design', Designrouter);
+app.use('/api/admin', Adminrouter);
 // Serve static files from the 'public' directory
 app.use(express.static('public'));
 
