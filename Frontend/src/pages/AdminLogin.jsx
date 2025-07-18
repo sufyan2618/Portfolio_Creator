@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import useAdminStore from '../Store/useAdminStore';
+import { useNavigate } from 'react-router-dom';
 
 function AdminLogin() {
   const [formData, setFormData] = useState({ email: '', password: '' });
-
+  const {AdminLogin, isLoggingIn} = useAdminStore(); 
+    const navigate = useNavigate();
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
@@ -10,9 +13,13 @@ function AdminLogin() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // You can now access form data via formData
-    console.log('Form Data:', formData);
-    // Example: you could send this data to an API here
+    const res = AdminLogin(formData);
+    if (res) {
+        navigate('/admin/add_design'); 
+    } else {
+      console.error("Failed to log in as admin");
+    }
+  
   };
 
   return (

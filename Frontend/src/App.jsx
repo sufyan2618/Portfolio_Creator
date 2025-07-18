@@ -16,15 +16,23 @@ import Layout from './components/Layout'
 import AdminLogin from './pages/AdminLogin'
 
 import { useEffect } from 'react'
+import useAdminStore from './Store/useAdminStore'
 function App() {
 
   const {authUser, checkAuth, GetInfo, userInfo} = useAuthStore()
+  const {adminUser, CheckAdminAuth} = useAdminStore()
 
   useEffect(() => {
     checkAuth();
     console.log(authUser)
+    console.log(adminUser)
   }, [])
 
+  useEffect(() => {
+    CheckAdminAuth();
+    console.log(adminUser)
+  }
+  , [CheckAdminAuth]);
   useEffect(() => {
     if (authUser) {
       GetInfo(authUser._id);
@@ -43,7 +51,7 @@ function App() {
       <Route path='/portfolio_info' element={<Layout><InfoPage/></Layout>}/>
       <Route path='/profile/:id' element={<Layout> <Profile/> </Layout>}/>
       <Route path='/update_info' element={<Layout> <UpdateInfoPage/> </Layout>}/>
-      <Route path='/admin/add_design' element={<AddDesign/>}/>
+      <Route path='/admin/add_design' element={adminUser ? <AddDesign/> : <AdminLogin/> }/>
       <Route path='/contact_us' element={<Layout> <ContactUs/> </Layout>}/>
       <Route path='/portfolio_preview/:userId/:designId' element={ <PortfolioPreview/>}/>
       <Route path='/admin/admin_login' element={<AdminLogin/>}/>

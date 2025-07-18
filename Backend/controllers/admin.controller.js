@@ -24,8 +24,9 @@ export const AdminLogin = async (req, res) => {
             sameSite: "Strict",
         });
         res.status(200).json({
-            message: "Admin logged in successfully",
-            token,
+            _id: admin._id,
+            name: admin.name,
+            email: admin.email,
         });
     } catch (error) {
         console.error("Admin login error:", error);

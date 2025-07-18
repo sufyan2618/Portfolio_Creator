@@ -7,9 +7,9 @@ const AddDesign = () => {
     const [formData, setFormData] = React.useState({
         title: '',
         description: '',
+        htmlFileUrl: '',
         image: null,
         hbsfile: null,
-        htmlfile: null
     });
 
     const navigate = useNavigate();
@@ -81,11 +81,11 @@ const AddDesign = () => {
                 />
             </div>
             <div className="mb-4">
-                <label className="block text-gray-700 mb-2">HTML File</label>
+                <label className="block text-gray-700 mb-2">HTML File URL</label>
                 <input
-                    type="file"
-                    accept=".html"
-                    onChange={(e) => setFormData({ ...formData, htmlfile: e.target.files[0] })}
+                    type="text"
+                    value={formData.htmlFileUrl}
+                    onChange={(e) => setFormData({ ...formData, htmlFileUrl: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded"
                     required
                 />
