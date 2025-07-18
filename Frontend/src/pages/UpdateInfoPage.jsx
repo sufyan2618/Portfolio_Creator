@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useAuthStore from '../Store/useAuthStore';
+import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import {
   User,
@@ -61,6 +62,17 @@ const UpdateInfoPage = () => {
   const [formData, setFormData] = useState(initialState);
   const { UpdateInfo, authUser, isSavingData } = useAuthStore();
   const id = authUser?._id || null;
+
+  const handlePersonalInfoChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      personalInfo: {
+        ...prev.personalInfo,
+        [name]: value,
+      },
+    }));
+  };
 
   // Handle simple input changes
   const handleChange = (e) => {
@@ -159,6 +171,8 @@ const UpdateInfoPage = () => {
 
     const form = new FormData();
     form.append('id', id);
+    console.log(form);
+    console.log(dataForBackend);
     form.append('data', JSON.stringify(dataForBackend));
 
     if (formData.personalInfo.profilePicture) {
@@ -168,6 +182,10 @@ const UpdateInfoPage = () => {
     formData.projects.forEach((project) => {
       form.append('projectImages', project.image);
     });
+
+    for (let [key, value] of form.entries()) {
+      console.log(`${key}:`, value);
+    }
 
     const res = await UpdateInfo(form);
 
@@ -211,8 +229,8 @@ const UpdateInfoPage = () => {
                 <input
                   type="text"
                   name="fullName"
-                  value={formData.fullName}
-                  onChange={handleChange}
+                  value={formData.personalInfo.fullName}
+                  onChange={handlePersonalInfoChange}
                   placeholder="Enter your full name"
                   className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
                 />
@@ -222,8 +240,8 @@ const UpdateInfoPage = () => {
                 <input
                   type="email"
                   name="email"
-                  value={formData.email}
-                  onChange={handleChange}
+                  value={formData.personalInfo.email}
+                  onChange={handlePersonalInfoChange}
                   placeholder="Enter your email address"
                   className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
                 />
@@ -233,8 +251,8 @@ const UpdateInfoPage = () => {
                 <input
                   type="tel"
                   name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
+                  value={formData.personalInfo.phone}
+                  onChange={handlePersonalInfoChange}
                   placeholder="Enter your phone number"
                   className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
                 />
@@ -244,8 +262,8 @@ const UpdateInfoPage = () => {
                 <input
                   type="text"
                   name="address"
-                  value={formData.address}
-                  onChange={handleChange}
+                  value={formData.personalInfo.address}
+                  onChange={handlePersonalInfoChange}
                   placeholder="Enter your address"
                   className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
                 />
@@ -255,8 +273,8 @@ const UpdateInfoPage = () => {
                 <input
                   type="url"
                   name="website"
-                  value={formData.website}
-                  onChange={handleChange}
+                  value={formData.personalInfo.website}
+                  onChange={handlePersonalInfoChange}
                   placeholder="Enter your website URL"
                   className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
                 />
@@ -266,8 +284,8 @@ const UpdateInfoPage = () => {
                 <input
                   type="url"
                   name="linkedin"
-                  value={formData.linkedin}
-                  onChange={handleChange}
+                  value={formData.personalInfo.linkedin}
+                  onChange={handlePersonalInfoChange}
                   placeholder="Enter your LinkedIn profile URL"
                   className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
                 />
@@ -277,8 +295,8 @@ const UpdateInfoPage = () => {
                 <input
                   type="url"
                   name="github"
-                  value={formData.github}
-                  onChange={handleChange}
+                  value={formData.personalInfo.github}
+                  onChange={handlePersonalInfoChange}
                   placeholder="Enter your GitHub profile URL"
                   className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
                 />
@@ -288,8 +306,8 @@ const UpdateInfoPage = () => {
                 <input
                   type="url"
                   name="twitter"
-                  value={formData.twitter}
-                  onChange={handleChange}
+                  value={formData.personalInfo.twitter}
+                  onChange={handlePersonalInfoChange}
                   placeholder="Enter your Twitter profile URL"
                   className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
                 />

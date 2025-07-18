@@ -126,7 +126,7 @@ export const GetInfo = async (req, res) => {
         }
 
         // Fetch the info document for the user
-        const info = await Info.findOne({ userId: id }).lean();
+        const info = await Info.findOne({ userId: id })
         if (!info) {
             return res.status(404).json({ message: 'Information not found for this user' });
         }

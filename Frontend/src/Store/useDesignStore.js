@@ -30,7 +30,7 @@ const useDesignStore = create((set) => ({
             formData.append('description', designData.description);
             formData.append('image', designData.image);
             formData.append('hbsfile', designData.hbsfile);
-            formData.append('htmlfile', designData.htmlfile);
+            formData.append('htmlFileUrl', designData.htmlFileUrl ); 
 
             const response = await axiosInstance.post("/design/create-design", formData, {
                 headers: {

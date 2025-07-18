@@ -1,5 +1,5 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import  { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import useAuthStore from '../Store/useAuthStore';
 import { 
   User, 
@@ -28,12 +28,13 @@ import {
 } from 'lucide-react';
 
 const Profile = () => {
-  const { userInfo, authUser } = useAuthStore();
+  const { userInfo, authUser, GetInfo } = useAuthStore();
   const navigate = useNavigate();
 
   const handleUpdateRoute = () => {
     navigate('/update_info');
   };
+  const {id} = useParams();
 
   const formatDate = (dateString) => {
     if (!dateString) return 'Present';
@@ -42,6 +43,10 @@ const Profile = () => {
       month: 'short'
     });
   };
+
+  useEffect(() => {
+    GetInfo(id);
+  }, [userInfo, authUser, GetInfo]);
 
   // If no user info, show empty state
   if (!userInfo) {

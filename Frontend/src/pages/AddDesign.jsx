@@ -30,7 +30,7 @@ const AddDesign = () => {
         e.preventDefault()
         const res = await CreateDesign(formData);
         if (res) {
-            navigate('/designs'); // Redirect to designs page after successful creation
+            navigate('/designs'); 
         } else {
             console.error('Failed to create design');
         }

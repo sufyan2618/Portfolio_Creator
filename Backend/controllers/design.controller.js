@@ -1,6 +1,5 @@
 import Design from '../models/design.model.js';
 import { uploadToCloudinary } from '../lib/cloudinary.js';
-import fs from 'fs';
 import uploadFile from '../util/uploadFile.js';
 
 // Handler to get all designs
@@ -26,16 +25,11 @@ export const AddDesign = async (req, res) => {
         const hbsFile = req.files?.hbsfile?.[0];
         const imageFile = req.files?.image?.[0];
 
-        if (!title || !description || !hbsFile || !htmlFileUrl || !imageFile) {
+        if (!title || !description || !hbsFile ||  !imageFile) {
             return res.status(400).json({ message: 'All fields, including files, are required' });
         }
 
-        //upload to cloudinary
-
-        if (!htmlFileUrl.startsWith('http')) {
-            return res.status(400).json({ message: 'Invalid HTML file URL' });
-        }
-        
+        //upload to cloudinarya 
         const count = await Design.countDocuments();
         const newCount = count + 1;
 
