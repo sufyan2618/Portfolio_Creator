@@ -9,6 +9,7 @@ import { uploadToCloudinary } from '../lib/cloudinary.js';
 Handlebars.registerHelper('formatDate', formatDate);
 
 export const StoreInfo = async (req, res) => {
+    console.log(req.body);
     try {
         const { id } = req.body;
         if (!id) {

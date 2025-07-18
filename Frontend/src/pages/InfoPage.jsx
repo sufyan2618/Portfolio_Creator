@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useAuthStore from '../Store/useAuthStore';
+import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import {
   User,
@@ -61,6 +62,7 @@ const InfoPage = () => {
   const [formData, setFormData] = useState(initialState);
   const { SaveData, authUser, isSavingData } = useAuthStore();
   const id = authUser?._id || null;
+  console.log(id)
 
   // Handle simple input changes
   const handleChange = (e) => {
@@ -159,6 +161,8 @@ const InfoPage = () => {
 
     const form = new FormData();
     form.append('id', id);
+    console.log(form);
+    console.log(dataForBackend);
     form.append('data', JSON.stringify(dataForBackend));
 
     if (formData.personalInfo.profilePicture) {
@@ -168,6 +172,10 @@ const InfoPage = () => {
     formData.projects.forEach((project) => {
       form.append('projectImages', project.image);
     });
+
+    for (let [key, value] of form.entries()) {
+      console.log(`${key}:`, value);
+    }
 
     const res = await SaveData(form);
 

@@ -4,23 +4,23 @@ import { Star, Quote } from 'lucide-react'
 const TestimonialsSection = () => {
   const testimonials = [
     {
-      name: "Sarah Johnson",
+      name: "Salman Ahmed",
       role: "Frontend Developer",
-      image: "/api/placeholder/60/60",
+      image: "/image1.jpeg",
       rating: 4,
-      text: "Online Identity made creating my portfolio incredibly easy! The templates are modern and the deployment feature is a game-changer."
+      text: "Online Identity made creating my portfolio incredibly easy! The deployment feature is a game-changer."
     },
     {
       name: "Muhammad Arslan",
       role: "Electrical Engineer",
-      image: "/api/placeholder/60/60",
+      image: "/image2.jpg",
       rating: 5,
       text: "I love how quickly I can iterate on designs. The platform is really helpful for non-developers to create their online identity."
     },
     {
       name: "Emily Rodriguez",
       role: "Full Stack Developer",
-      image: "/api/placeholder/60/60",
+      image: "/image3.jpeg",
       rating: 5,
       text: "The one-click deployment saved me hours of work. My portfolio was live in minutes, not days!"
     }

@@ -43,12 +43,11 @@ const useAdminStore = create((set) => ({
         set({ isCheckingAdminAuth: true});
         try {
             const response = await axiosInstance.get("/admin/check-auth");
-            set({ adminUser: response.data }); // Store the admin user data in the store
-            return response.data; // Return the admin user data to the component
+            set({ adminUser: response.data }); 
+            return response.data; 
         } catch (error) {
             console.error("Check Admin Auth error:", error);
-            toast.error(`Failed to check admin authentication. ${error.response?.data?.message}.`);
-            throw error; // Propagate the error to the component
+            throw error; 
         } finally {
             set({ isCheckingAdminAuth: false });
         }

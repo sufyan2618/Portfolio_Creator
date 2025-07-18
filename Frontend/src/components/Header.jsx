@@ -122,7 +122,7 @@ const Header = () => {
                                             onClick={handleProfile}
                                             className="flex items-center gap-3 w-full px-4 py-3 text-gray-300 hover:text-white hover:bg-slate-700/50 transition-all duration-200 group"
                                         >
-                                            <Us er className="w-4 h-4 group-hover:text-purple-400 transition-colors" />
+                                            <User className="w-4 h-4 group-hover:text-purple-400 transition-colors" />
                                             Profile
                                         </button>
                                         <button

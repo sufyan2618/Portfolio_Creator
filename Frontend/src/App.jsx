@@ -25,7 +25,6 @@ function App() {
   useEffect(() => {
     checkAuth();
     console.log(authUser)
-    console.log(adminUser)
   }, [])
 
   useEffect(() => {

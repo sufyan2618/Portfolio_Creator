@@ -76,6 +76,7 @@ const useAuthStore = create((set) => ({
     SaveData: async (formData) => {
         set({ isSavingData: true });
         try {
+            console.log(formData)
             const response = await axiosInstance.post('/info/store-info', formData);
             toast.success('Information saved successfully');
             return response.data; 
@@ -93,7 +94,6 @@ const useAuthStore = create((set) => ({
     UpdateInfo: async (formData) => { // It only needs the FormData object
         set({ isSavingData: true });
         try {
-
             const response = await axiosInstance.post("/info/update-info", formData);
             set({ userInfo: response.data.info });
             toast.success('Information updated successfully');
