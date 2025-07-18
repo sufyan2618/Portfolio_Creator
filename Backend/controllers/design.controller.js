@@ -20,20 +20,22 @@ export const GetDesigns = async (req, res) => {
 
 export const AddDesign = async (req, res) => {
     try {
-        const { title, description } = req.body;
+        const { title, description, htmlFileUrl } = req.body;
 
         // Multer correctly places files in req.files
         const hbsFile = req.files?.hbsfile?.[0];
-        const htmlFile = req.files?.htmlfile?.[0];
         const imageFile = req.files?.image?.[0];
 
-        if (!title || !description || !hbsFile || !htmlFile || !imageFile) {
+        if (!title || !description || !hbsFile || !htmlFileUrl || !imageFile) {
             return res.status(400).json({ message: 'All fields, including files, are required' });
         }
 
         //upload to cloudinary
 
-
+        if (!htmlFileUrl.startsWith('http')) {
+            return res.status(400).json({ message: 'Invalid HTML file URL' });
+        }
+        
         const count = await Design.countDocuments();
         const newCount = count + 1;
 
@@ -44,7 +46,7 @@ export const AddDesign = async (req, res) => {
         const hbsFileUrl = await uploadFile(hbsFilePath, hbsFile.buffer, hbsType);
 
 
-        if (!htmlFileUrl || !hbsFileUrl) {
+        if (!hbsFileUrl) {
             return res.status(500).json({ message: 'Failed to upload files' });
         }
 

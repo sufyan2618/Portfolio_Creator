@@ -11,7 +11,6 @@ Designrouter.get('/get-designs', GetDesigns);
 Designrouter.post('/create-design', 
   upload.fields([
     { name: 'hbsfile', maxCount: 1 },
-    { name: 'htmlfile', maxCount: 1 },
     { name: 'image', maxCount: 1 }
   ]), 
   AddDesign
