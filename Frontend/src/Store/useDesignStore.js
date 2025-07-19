@@ -6,6 +6,7 @@ const useDesignStore = create((set) => ({
     designs: [],
     isFetchingDesigns: false,
     isCreatingDesign: false,
+    isDeployingDesign: false,
 
     FetchDesigns: async () => {
         set({ isFetchingDesigns: true });
@@ -49,6 +50,26 @@ const useDesignStore = create((set) => ({
             throw error; // Propagate the error to the component
         } finally {
             set({ isCreatingDesign: false });
+        }
+    },
+    DeployDesign: async (htmlContent, designId, userId) => {
+        set({ isDeployingDesign: true });
+        try {
+            const response = await axiosInstance.post("/deploy/deploy-portfolio", {
+                htmlContent,
+                designId,
+                userId
+            });
+            console.log("Deployment response:", response.data);
+            toast.success("Design deployed successfully.");
+            return response.data; 
+
+        } catch (error) {
+            console.error("Error deploying design:", error);
+            toast.error(error.response?.data?.message || "Failed to deploy design.");
+            throw error; // Propagate the error to the component
+        } finally {
+            set({ isDeployingDesign: false });
         }
     },
 

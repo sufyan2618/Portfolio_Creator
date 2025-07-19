@@ -62,6 +62,10 @@ const PortfolioPreview = () => {
     navigate(-1);
   };
 
+  const handledeployRoute = () => {
+    navigate(`/deploy/${userId}/${designId}`);
+  }
+
   if (isCreatingPortfolio) {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center px-4">
@@ -136,6 +140,15 @@ const PortfolioPreview = () => {
                 )}
               </button>
             </div>
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={handledeployRoute}
+                className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-all duration-200"
+              >
+                <Code className="w-4 h-4" />
+                Deploy Portfolio
+              </button>
+              </div>
           </div>
         </div>
       </div>

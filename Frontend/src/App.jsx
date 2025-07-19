@@ -14,7 +14,7 @@ import PortfolioPreview from './pages/PreviewPortfolio'
 import ContactUs from './pages/ContactUs'
 import Layout from './components/Layout'
 import AdminLogin from './pages/AdminLogin'
-
+import Deployed from './pages/Deployed'
 import { useEffect } from 'react'
 import useAdminStore from './Store/useAdminStore'
 function App() {
@@ -54,6 +54,7 @@ function App() {
       <Route path='/contact_us' element={<Layout> <ContactUs/> </Layout>}/>
       <Route path='/portfolio_preview/:userId/:designId' element={ <PortfolioPreview/>}/>
       <Route path='/admin/admin_login' element={<AdminLogin/>}/>
+      <Route path='/deploy/:id/:designId' element={<Deployed/>}/>
     </Routes>
     <Toaster/>
     </>
