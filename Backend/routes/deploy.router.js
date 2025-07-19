@@ -1,0 +1,8 @@
+import express from 'express';
+import { deployToNetlify } from '../controllers/deploy.controller.js';
+const Deployrouter = express.Router();
+import auth from '../middleware/auth.middleware.js';
+
+Deployrouter.post('/deploy-portfolio', auth, deployToNetlify);
+
+export default Deployrouter;
