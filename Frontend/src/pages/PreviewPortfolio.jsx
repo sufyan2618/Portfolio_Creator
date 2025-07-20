@@ -30,7 +30,6 @@ const PortfolioPreview = () => {
           setHtmlContent('<h1>Portfolio data not found.</h1>');
         }
       } catch (error) {
-        console.error('Error fetching portfolio page:', error);
         setHtmlContent('<h1>Error loading portfolio preview.</h1>');
       }
     };

@@ -20,7 +20,6 @@ const useAuthStore = create((set) => ({
             toast.success('User created successfully');
             return response.data;
         } catch (error) {
-            console.error('Signup error:', error);
             toast.error(`Signup failed. ${error.response?.data?.message || 'An error occurred.'}`);
             throw error; // Propagate the error to the component
         }
@@ -36,7 +35,6 @@ const useAuthStore = create((set) => ({
             toast.success('Login successful');
             return response.data; // Return the user data to the component
         } catch (error) {
-            console.error('Login error:', error);
             toast.error(`Login failed. ${error.response?.data?.message}.`);
             throw error; // Propagate the error to the component
         }
@@ -51,7 +49,6 @@ const useAuthStore = create((set) => ({
             toast.success('Logout successful');
             set({ authUser: null }); // Clear the user data from the store
         } catch (error) {
-            console.error('Logout error:', error);
             toast.error(`Logout failed. ${error.response?.data?.message}.`);
             throw error; // Propagate the error to the component
         }
@@ -65,7 +62,6 @@ const useAuthStore = create((set) => ({
             const res = await axiosInstance.get('/auth/check-auth')
             set({ authUser: res.data })
         } catch (error) {
-            console.error(error)
             set({ authUser: null })
         }
         finally {
@@ -76,12 +72,10 @@ const useAuthStore = create((set) => ({
     SaveData: async (formData) => {
         set({ isSavingData: true });
         try {
-            console.log(formData)
             const response = await axiosInstance.post('/info/store-info', formData);
             toast.success('Information saved successfully');
             return response.data; 
         } catch (error) {
-            console.error('SaveData error:', error);
             toast.error(`Failed to save data. ${error.response?.data?.message || 'An error occurred.'}`);
             throw error; // Propagate the error to the component
         }
@@ -99,7 +93,6 @@ const useAuthStore = create((set) => ({
             toast.success('Information updated successfully');
             return response.data;
         } catch (error) {
-            console.error('UpdateInfo error:', error);
             toast.error(`Failed to update information. ${error.response?.data?.message || 'An error occurred.'}`);
             throw error;
         } finally {
@@ -115,7 +108,6 @@ const useAuthStore = create((set) => ({
             set({ userInfo: response.data }); // Store the fetched info in the store
             return response.data; // Return the fetched data to the component
         } catch (error) {
-            console.error('GetInfo error:', error);
             throw error; // Propagate the error to the component
         } finally {
             set({ isGettingInfo: false });
@@ -127,7 +119,6 @@ const useAuthStore = create((set) => ({
             const response = await axiosInstance.get(`/info/portfolio/${userId}/${designId}`);
             return response.data; 
         } catch (error) {
-            console.error('GetPortfolioPage error:', error);
             throw error; 
         } finally {
             set({ isCreatingPortfolio: false });

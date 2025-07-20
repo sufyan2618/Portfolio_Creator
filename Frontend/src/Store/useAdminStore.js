@@ -13,11 +13,9 @@ const useAdminStore = create((set) => ({
         try {
             const response = await axiosInstance.post("/admin/login", data);
             set({ adminUser: response.data });
-            console.log("Admin login response:", response.data);
             toast.success("Admin login successful");
             return response.data;
         } catch (error) {
-            console.error("Admin login error:", error);
             toast.error(`Admin login failed. ${error.response?.data?.message}.`);
             throw error; // Propagate the error to the component
         } finally {
@@ -32,7 +30,6 @@ const useAdminStore = create((set) => ({
             toast.success("Admin logout successful");
             set({ adminUser: null }); // Clear the admin user data from the store
         } catch (error) {
-            console.error("Admin logout error:", error);
             toast.error(`Admin logout failed. ${error.response?.data?.message}.`);
             throw error; // Propagate the error to the component
         } finally {
@@ -46,7 +43,6 @@ const useAdminStore = create((set) => ({
             set({ adminUser: response.data }); 
             return response.data; 
         } catch (error) {
-            console.error("Check Admin Auth error:", error);
             throw error; 
         } finally {
             set({ isCheckingAdminAuth: false });

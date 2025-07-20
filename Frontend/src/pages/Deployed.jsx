@@ -55,7 +55,6 @@ const Deployed = () => {
                     throw new Error("Deployment did not return a valid URL.");
                 }
             } catch (err) {
-                console.error("Error during deployment process:", err);
                 setError(err.message || "An unexpected error occurred during deployment.");
                 setDeploymentProgress(0);
             }
@@ -292,7 +291,7 @@ const Deployed = () => {
                                             Create Another Portfolio
                                         </button>
                                         <button
-                                            onClick={() => navigate(`/profile/${id}`)}
+                                            onClick={() => navigate(`/profile/${userId}`)}
                                             className="text-purple-400 hover:text-purple-300 text-sm font-medium transition-colors"
                                         >
                                             View My Profile

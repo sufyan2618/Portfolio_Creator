@@ -168,8 +168,6 @@ const InfoPage = () => {
 
     const form = new FormData();
     form.append('id', id);
-    console.log(form);
-    console.log(dataForBackend);
     form.append('data', JSON.stringify(dataForBackend));
 
     if (formData.personalInfo.profilePicture) {
@@ -179,10 +177,6 @@ const InfoPage = () => {
     formData.projects.forEach((project) => {
       form.append('projectImages', project.image);
     });
-
-    for (let [key, value] of form.entries()) {
-      console.log(`${key}:`, value);
-    }
 
     const res = await SaveData(form);
 

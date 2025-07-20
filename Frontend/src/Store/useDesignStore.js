@@ -14,7 +14,6 @@ const useDesignStore = create((set) => ({
             const response = await axiosInstance.get("/design/get-designs");
             set({ designs: response.data });
         } catch (error) {
-            console.error("Error fetching designs:", error);
             toast.error("Failed to fetch designs.");
         } finally {
             set({ isFetchingDesigns: false });
@@ -44,7 +43,6 @@ const useDesignStore = create((set) => ({
             return response.data; 
 
         } catch (error) {
-            console.error("Error creating design:", error);
             toast.error(error.response?.data?.message || "Failed to create design.");
             throw error; // Propagate the error to the component
         } finally {
@@ -62,7 +60,6 @@ const useDesignStore = create((set) => ({
             return response.data; 
 
         } catch (error) {
-            console.error("Error deploying design:", error);
             toast.error(error.response?.data?.message || "Failed to deploy design.");
             throw error; // Propagate the error to the component
         } finally {
