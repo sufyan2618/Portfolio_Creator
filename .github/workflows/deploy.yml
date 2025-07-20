@@ -18,11 +18,11 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             # Navigate to your project directory
-            cd /var/www/your-app
+            cd /var/www/portfolio_creator
 
             # Pull the latest changes from the main branch
             echo "Pulling latest code from GitHub..."
-            git pull origin main
+            git pull origin master
 
             # Install backend dependencies and restart the application with PM2
             echo "Deploying backend..."

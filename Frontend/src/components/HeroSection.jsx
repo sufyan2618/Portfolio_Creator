@@ -1,6 +1,7 @@
 // HeroSection.jsx
 import React from 'react'
-import { ArrowRight, Sparkles, Code, Rocket } from 'lucide-react'
+import { ArrowRight, Sparkles, Code } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const HeroSection = () => {
   return (
@@ -38,14 +39,14 @@ const HeroSection = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-13">
-            <a
-              href="/designs"
+            <Link
+              to="/designs"
               className="group bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-purple-500/25 transform hover:-translate-y-1"
             >
               <Code className="w-5 h-5" />
               Explore Designs
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </a>
+            </Link>
           </div>
 
           {/* Stats */}
