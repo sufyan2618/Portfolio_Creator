@@ -15,3 +15,5 @@ const InfoProtectedRoute = () => {
 
     return  userInfo ? <Outlet /> : <Navigate to="/portfolio_info" />;
 }
+
+export default InfoProtectedRoute;

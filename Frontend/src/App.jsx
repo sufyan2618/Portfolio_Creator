@@ -1,23 +1,29 @@
 import './App.css'
+import { useEffect } from 'react'
 import { Navigate, Route, Routes } from 'react-router'
+import { Toaster } from 'react-hot-toast'
+
 import Home from './pages/Home'
 import Designs from './pages/Designs'
-import { Toaster } from 'react-hot-toast'
 import Signup from './pages/Signup'
 import Signin from './pages/Signin'
 import InfoPage from './pages/InfoPage'
 import Profile from './pages/Profile'
 import UpdateInfoPage from './pages/UpdateInfoPage'
-import useAuthStore from './Store/useAuthStore'
 import AddDesign from './pages/AddDesign'
 import PortfolioPreview from './pages/PreviewPortfolio'
 import ContactUs from './pages/ContactUs'
 import Layout from './components/Layout'
 import AdminLogin from './pages/AdminLogin'
 import Deployed from './pages/Deployed'
-import { useEffect } from 'react'
+
+import AdminProtectedRoute from './components/protectedRoutes/AdminProtectedRoute'
+import InfoProtectedRoute from './components/protectedRoutes/InfoProtectedRoute'
+import UserProtectedRoute from './components/protectedRoutes/UserProtectedRoute'
+
 import useAdminStore from './Store/useAdminStore'
-import AddDesignSkeleton from './components/skeletons/AddDesignSkeleton'
+import useAuthStore from './Store/useAuthStore'
+
 function App() {
 
   const {authUser, checkAuth, GetInfo, userInfo} = useAuthStore()
@@ -40,20 +46,30 @@ function App() {
 
   return (
     <>
-    <Routes>
-      <Route path="/" element={<Layout>  <Home/> </Layout>}/>
-      <Route path="/designs" element={<Layout> <Designs/> </Layout>}/>
-      <Route path='/signup'element={!authUser ? <Signup/> : <Navigate to="/"/>}/>
-      <Route path='/signin' element={!authUser ? <Signin/> : <Navigate to="/"/>}/>
-      <Route path='/portfolio_info' element={authUser ? <Layout><InfoPage/></Layout> : <Navigate to="/signin"/> }/>
-      <Route path='/profile/:id' element={authUser ?<Layout> <Profile/> </Layout> : <Navigate to="/signin"/>}/>
-      <Route path='/update_info' element={authUser ?<Layout> <UpdateInfoPage/> </Layout> : <Navigate to="/signin"/>}/>
-      <Route path='/admin/add_design' element={isCheckingAdminAuth ?(<AddDesignSkeleton/>) : (adminUser ? <AddDesign/> : <AdminLogin/>) }/>
-      <Route path='/contact_us' element={<Layout> <ContactUs/> </Layout>}/>
-      <Route path='/portfolio_preview/:userId/:designId' element={authUser ? (userInfo ? (<PortfolioPreview/>) : (<Navigate to="/portfolio_info"/>)): (<Navigate to="/signin"/>)}/>
-      <Route path='/admin/admin_login' element={!adminUser ? <AdminLogin/> : <Navigate to="/admin/add_design"/>}/>
-      <Route path='/deploy/:id/:designId'element={authUser ? (userInfo ? (<Deployed/>) : (<Navigate to="/portfolio_info"/>)): (<Navigate to="/signin"/>)}/>
-    </Routes>
+      <Routes>
+        
+        <Route path="/" element={<Layout> <Home/> </Layout>}/>
+        <Route path="/designs" element={<Layout> <Designs/> </Layout>}/>
+        <Route path="/contact_us" element={<Layout> <ContactUs/> </Layout>}/>
+        <Route path='/signup' element={!authUser ?<Signup/> : <Navigate to="/"/>}/>
+        <Route path='/signin' element={!authUser ? <Signin/> : <Navigate to="/"/>}/>
+        <Route path="/admin/admin_login" element={!adminUser ? <AdminLogin/> : <Navigate to="/admin/add_design"/>}/>
+
+        <Route element={<UserProtectedRoute/>}>
+          <Route path="/profile/:id" element={<Layout> <Profile/> </Layout>}/>
+          <Route path="/update_info" element={<Layout> <UpdateInfoPage/> </Layout>}/>
+          <Route path="/portfolio_info" element={!userInfo ? <Layout> <InfoPage/> </Layout> : <Navigate to="/update_info"/>}/>
+          <Route element={<InfoProtectedRoute/>}>
+            <Route path="/portfolio_preview/:userId/:designId" element={<PortfolioPreview/>}/>
+            <Route path='/deployed/:userId/:designId' element={<Deployed/>}/>
+          </Route>
+        </Route>
+
+        <Route element={<AdminProtectedRoute/>}>
+          <Route path="/admin/add_design" element={ <AddDesign/> }/>
+        </Route>
+
+      </Routes>
     <Toaster/>
     </>
   )

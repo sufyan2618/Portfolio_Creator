@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, User, LogOut, Settings, Home, Palette, Info, Plus, Sparkles, Mail } from 'lucide-react'
+import { Menu, X, User, LogOut, Settings, Home, Palette, Info, Sparkles, Mail } from 'lucide-react'
 import useAuthStore from '../Store/useAuthStore'
 import { useNavigate } from 'react-router-dom'
+import HeaderSkeleton from './skeletons/HeaderSkeleton'
 
 const Header = () => {
     const { authUser, Logout, userInfo, isLoggingOut, isCheckingAuth } = useAuthStore()
@@ -72,6 +73,10 @@ const Header = () => {
             )}
         </Link>
     )
+    if (isCheckingAuth) {
+        return <HeaderSkeleton />
+    }
+
 
     return (
         <nav className="sticky top-0 z-50 bg-slate-900/95 backdrop-blur-md border-b border-slate-800/50 shadow-lg">

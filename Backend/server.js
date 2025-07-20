@@ -11,7 +11,9 @@ import InfoRouter from './routes/info.router.js';
 import Designrouter from './routes/design.router.js';
 import Adminrouter from './routes/admin.router.js';
 import Deployrouter from './routes/deploy.router.js';
+import noCache from './middleware/noCache.js';
 
+app.use(noCache)
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
