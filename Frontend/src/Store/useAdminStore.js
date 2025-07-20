@@ -28,7 +28,7 @@ const useAdminStore = create((set) => ({
         try {
             const response = await axiosInstance.post("/admin/logout");
             toast.success("Admin logout successful");
-            set({ adminUser: null }); \
+            set({ adminUser: null }); 
         } catch (error) {
             toast.error(`Admin logout failed. ${error.response?.data?.message}.`);
             throw error; // Propagate the error to the component
