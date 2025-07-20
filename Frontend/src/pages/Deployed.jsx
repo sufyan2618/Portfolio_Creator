@@ -45,7 +45,7 @@ const Deployed = () => {
                 const htmlContent = await GetPortfolioPage(id, designId);
                 setDeploymentProgress(30);
                 
-                const res = await DeployDesign(htmlContent, designId, id);
+                const res = await DeployDesign(htmlContent,  id);
                 
                 clearInterval(progressInterval);
                 setDeploymentProgress(100);

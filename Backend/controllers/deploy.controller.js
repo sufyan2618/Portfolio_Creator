@@ -1,93 +1,32 @@
-// deploy.controller.js
-import axios from 'axios';
-import JSZip from 'jszip';
 import Info from '../models/info.model.js'; 
+import { deployToNetlify } from '../lib/deployToNetlify.js';
 
 
-const waitForNetlifyDeployReady = async (siteId, deployId, NETLIFY_TOKEN, timeoutMs = 70000, pollInterval = 2000) => {
-    const start = Date.now();
-    let state = 'preparing';
-
-    while (Date.now() - start < timeoutMs) {
-        const deployResponse = await axios.get(
-            `https://api.netlify.com/api/v1/sites/${siteId}/deploys/${deployId}`,
-            { headers: { 'Authorization': `Bearer ${NETLIFY_TOKEN}` } }
-        );
-        state = deployResponse.data.state;
-        if (state === 'ready') return deployResponse.data;
-        if (['error', 'failed'].includes(state)) throw new Error(`Deploy failed: ${state}`);
-        await new Promise(r => setTimeout(r, pollInterval));
-    }
-    throw new Error('Timed out waiting for Netlify deploy to become ready');
-};
-
-export const deployToNetlify = async (req, res) => {
+export const deployUserPortfolio = async (req, res) => {
     try {
-        const { htmlContent, designId, userId } = req.body;
-        const NETLIFY_TOKEN = process.env.NETLIFY_TOKEN;
-
-        if (!NETLIFY_TOKEN) {
-            return res.status(500).json({
+        const {htmlContent, userId} = req.body;
+        if (!htmlContent || !userId) {
+            return res.status(400).json({ success: false, error: 'HTML content and user ID are required' });
+        }
+        const user = await Info.findOne({userId: userId});
+        if (!user) {
+            return res.status(404).json({ success: false, error: 'User not found' });
+        }
+        const siteName = `portfolio-${user.personalInfo.fullName.replace(/\s+/g, '-').toLowerCase()}-${Date.now()}`;
+        const deployResponse = await deployToNetlify(htmlContent, siteName);
+        if (deployResponse.success) {
+            res.status(200).json({
+                success: true,
+                url: deployResponse.url,
+                deployId: deployResponse.deployId,
+                deployData: deployResponse.deployData
+            });
+        } else {
+            res.status(500).json({
                 success: false,
-                error: 'Netlify token not configured'
+                error: 'Deployment failed'
             });
         }
-
-        const userInfo = await Info.findOne({ userId: userId });
-        if (!userInfo) {
-            return res.status(404).json({ success: false, error: 'User info not found.' });
-        }
-
-        // Generate a unique site name for Netlify
-        const siteName = `portfolio-${userInfo.personalInfo.fullName.replace(/\s+/g, '-').toLowerCase()}-${Date.now()}`;
-
-        const siteResponse = await axios.post(
-            'https://api.netlify.com/api/v1/sites',
-            {
-                name: siteName,
-            },
-            { 
-                headers: {
-                    'Authorization': `Bearer ${NETLIFY_TOKEN}`,
-                    'Content-Type': 'application/json'
-                }
-            }
-        );
-
-        const siteId = siteResponse.data.id;
-        const siteUrl = siteResponse.data.ssl_url || siteResponse.data.url;
-
-
-        const zip = new JSZip();
-        zip.file('index.html', htmlContent);
-        const headersFileContent = `/*\n  Content-Type: text/html; charset=utf-8`;
-
-        // Add the _headers file to the zip
-        zip.file('_headers', headersFileContent);
-        const zipBuffer = await zip.generateAsync({ type: 'nodebuffer' });
-
-        const deployResponse = await axios.post(
-            `https://api.netlify.com/api/v1/sites/${siteId}/deploys`,
-            zipBuffer,
-            {
-                headers: {
-                    'Authorization': `Bearer ${NETLIFY_TOKEN}`,
-                    'Content-Type': 'application/zip'
-                }
-            }
-        );
-        const deployId = deployResponse.data.id;
-
-        const deployData = await waitForNetlifyDeployReady(siteId, deployId, NETLIFY_TOKEN);
-
-        res.json({
-            success: true,
-            url: siteUrl, // The main site URL
-            siteId,
-            deployId,
-            deployState: deployData.state,
-            deployUrl: deployData.deploy_ssl_url || deployData.deploy_url // The specific URL for this deploy
-        });
 
     } catch (error) {
         console.error('Netlify deployment error:', error.response?.data?.message || error.message);

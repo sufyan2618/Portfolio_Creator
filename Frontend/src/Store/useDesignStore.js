@@ -52,12 +52,11 @@ const useDesignStore = create((set) => ({
             set({ isCreatingDesign: false });
         }
     },
-    DeployDesign: async (htmlContent, designId, userId) => {
+    DeployDesign: async (htmlContent, userId) => {
         set({ isDeployingDesign: true });
         try {
             const response = await axiosInstance.post("/deploy/deploy-portfolio", {
                 htmlContent,
-                designId,
                 userId
             });
             console.log("Deployment response:", response.data);
