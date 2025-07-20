@@ -3,6 +3,7 @@ const app = express();
 app.use(express.json());
 import dotenv from 'dotenv';
 dotenv.config();
+import path from 'path';
 import connectDb from './lib/connectDb.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -22,6 +23,16 @@ app.use(cors({
     origin: process.env.CLIENT_URL || 'http://localhost:5173',
     credentials: true, // Allow cookies to be sent with requests
 }));
+
+
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, '../Frontend/dist')));
+    app.get('*', (req, res) => {
+      res.sendFile(path.resolve(__dirname, '../Frontend/dist/index.html'));
+  
+    })
+  }
+    
 
 
 app.use('/api/auth', Authrouter);
