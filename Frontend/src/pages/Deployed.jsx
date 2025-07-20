@@ -14,7 +14,6 @@ import {
   Sparkles,
   Globe,
   Share2,
-  Download,
   Eye,
   RefreshCw
 } from 'lucide-react';

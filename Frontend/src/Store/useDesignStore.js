@@ -12,7 +12,6 @@ const useDesignStore = create((set) => ({
         set({ isFetchingDesigns: true });
         try {
             const response = await axiosInstance.get("/design/get-designs");
-            console.log("Fetched designs:", response.data);
             set({ designs: response.data });
         } catch (error) {
             console.error("Error fetching designs:", error);
@@ -31,7 +30,7 @@ const useDesignStore = create((set) => ({
             formData.append('description', designData.description);
             formData.append('image', designData.image);
             formData.append('hbsfile', designData.hbsfile);
-            formData.append('htmlFileUrl', designData.htmlFileUrl ); 
+            formData.append('htmlFile', designData.htmlFile); 
 
             const response = await axiosInstance.post("/design/create-design", formData, {
                 headers: {

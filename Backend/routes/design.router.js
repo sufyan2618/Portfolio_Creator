@@ -12,6 +12,7 @@ const Designrouter = express.Router();
 Designrouter.get('/get-designs', GetDesigns);
 Designrouter.post('/create-design', 
   upload.fields([
+    { name: 'htmlFile', maxCount: 1 },
     { name: 'hbsfile', maxCount: 1 },
     { name: 'image', maxCount: 1 }
   ]), 

@@ -8,7 +8,6 @@ import {
   Lock, 
   Eye, 
   EyeOff, 
-  Sparkles, 
   UserPlus,
   ArrowRight
 } from 'lucide-react';

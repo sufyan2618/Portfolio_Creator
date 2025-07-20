@@ -1,6 +1,7 @@
 // CTASection.jsx
 import React from 'react'
 import { ArrowRight, Star } from 'lucide-react'
+import { Link } from 'react-router'
 
 const CTASection = () => {
   return (
@@ -28,20 +29,14 @@ const CTASection = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a
-              href="/designs"
+            <Link 
+              to="/designs"
               className="group bg-gradient-to-r from-yellow-500 to-orange-500 text-black px-8 py-4 rounded-xl font-semibold hover:from-yellow-600 hover:to-orange-600 transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-yellow-500/25 transform hover:-translate-y-1"
             >
-              Start Creating Now
+              Explore Designs
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </a>
+            </Link>
             
-            <a
-              href="/add_design"
-              className="text-white border border-white/30 px-8 py-4 rounded-xl font-semibold hover:bg-white/10 transition-all duration-300 flex items-center gap-2"
-            >
-              View Examples
-            </a>
           </div>
           
           <div className="mt-12 text-gray-400 text-sm">

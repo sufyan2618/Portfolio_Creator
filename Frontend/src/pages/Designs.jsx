@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import DesignCard from '../components/DesignCard';
 import useDesignStore from '../Store/useDesignStore';
-import { Palette, Sparkles, Grid3X3, Search } from 'lucide-react';
+import { Palette,  Grid3X3, Search } from 'lucide-react';
 
 const Designs = () => {
   const { FetchDesigns, designs, isFetchingDesigns } = useDesignStore();

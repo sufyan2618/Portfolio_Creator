@@ -4,9 +4,6 @@ import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import {
   User,
-  Mail,
-  Phone,
-  MapPin,
   Globe,
   Plus,
   Save,
@@ -20,7 +17,7 @@ import {
   Sparkles
 } from 'lucide-react';
 
-import { SiInstagram, SiYoutube, SiGithub, SiFacebook, SiLinkedin } from 'react-icons/si';
+import { SiInstagram, SiYoutube, SiFacebook } from 'react-icons/si';
 import { FaLink } from 'react-icons/fa';
 
 const initialState = {

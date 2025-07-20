@@ -12,6 +12,7 @@ import {
   Clock,
   ArrowRight
 } from 'lucide-react';
+import { Link } from 'react-router';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -95,7 +96,7 @@ const ContactUs = () => {
                     </div>
                     <div>
                       <p className="text-white font-medium">Email</p>
-                      <p className="text-gray-400 text-sm">onlineidentity@gmail.com</p>
+                      <p className="text-gray-400 text-sm">info@sufyanliaqat.me</p>
                     </div>
                   </div>
                   
@@ -137,18 +138,14 @@ const ContactUs = () => {
               <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-6">
                 <h3 className="text-lg font-semibold text-white mb-4">Quick Links</h3>
                 <div className="space-y-3">
-                  <a href="/designs" className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
+                  <Link to="/designs" className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
                     <ArrowRight className="w-4 h-4" />
                     <span className="text-sm">Browse Designs</span>
-                  </a>
-                  <a href="/portfolio_info" className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
+                  </Link>
+                  <Link to="/portfolio_info" className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
                     <ArrowRight className="w-4 h-4" />
                     <span className="text-sm">Create Portfolio</span>
-                  </a>
-                  <a href="/about" className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
-                    <ArrowRight className="w-4 h-4" />
-                    <span className="text-sm">About Us</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

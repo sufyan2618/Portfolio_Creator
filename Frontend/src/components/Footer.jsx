@@ -20,10 +20,10 @@ const Footer = () => {
     const currentYear = new Date().getFullYear()
 
     const socialLinks = [
-        { name: 'GitHub', href: 'https://github.com', icon: SiGithub },
-        { name: 'Twitter', href: 'https://twitter.com', icon: FaSquareXTwitter }, // Assuming you meant to use a different icon for Twitter
-        { name: 'LinkedIn', href: 'https://linkedin.com', icon: SiLinkedin },
-        { name: 'Instagram', href: 'https://instagram.com', icon: SiInstagram },
+        { name: 'GitHub', href: 'https://github.com/sufyan2618', icon: SiGithub },
+        { name: 'Twitter', href: 'https://twitter.com/sufyan', icon: FaSquareXTwitter }, 
+        { name: 'LinkedIn', href: 'https://linkedin.com/in/sufyanliaqat2', icon: SiLinkedin },
+        { name: 'Instagram', href: 'https://instagram.com/sufyan_liaquat1', icon: SiInstagram },
     ]
 
     return (

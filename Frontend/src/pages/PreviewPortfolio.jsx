@@ -4,8 +4,6 @@ import useAuthStore from '../Store/useAuthStore';
 import {
   Download,
   Eye,
-  ExternalLink,
-  Share2,
   ArrowLeft,
   Sparkles,
   Code,

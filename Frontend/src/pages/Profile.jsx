@@ -7,12 +7,6 @@ import {
   Phone, 
   MapPin, 
   Globe, 
-  Github, 
-  Linkedin, 
-  Twitter, 
-  Facebook, 
-  Instagram, 
-  Youtube,
   Edit3,
   Calendar,
   Briefcase,
@@ -22,10 +16,10 @@ import {
   Heart,
   Settings,
   ExternalLink,
-  Sparkles,
-  Code,
-  Eye
+  Code
 } from 'lucide-react';
+import { SiGithub, SiLinkedin, SiFacebook, SiInstagram, SiYoutube } from 'react-icons/si';
+import { FaXTwitter } from "react-icons/fa6";
 
 const Profile = () => {
   const { userInfo, authUser, GetInfo } = useAuthStore();
@@ -169,32 +163,32 @@ const Profile = () => {
                 <div className="flex flex-wrap gap-3">
                   {userInfo?.personalInfo?.github && (
                     <a href={userInfo.personalInfo.github} target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors">
-                      <Github className="w-4 h-4 text-gray-300" />
+                      <SiGithub className="w-4 h-4 text-gray-300" />
                     </a>
                   )}
                   {userInfo?.personalInfo?.linkedin && (
                     <a href={userInfo.personalInfo.linkedin} target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors">
-                      <Linkedin className="w-4 h-4 text-gray-300" />
+                      <SiLinkedin className="w-4 h-4 text-gray-300" />
                     </a>
                   )}
                   {userInfo?.personalInfo?.twitter && (
                     <a href={userInfo.personalInfo.twitter} target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors">
-                      <Twitter className="w-4 h-4 text-gray-300" />
+                      <FaXTwitter className="w-4 h-4 text-gray-300" />
                     </a>
                   )}
                   {userInfo?.socialLinks?.facebook && (
                     <a href={userInfo.socialLinks.facebook} target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors">
-                      <Facebook className="w-4 h-4 text-gray-300" />
+                      <SiFacebook className="w-4 h-4 text-gray-300" />
                     </a>
                   )}
                   {userInfo?.socialLinks?.instagram && (
                     <a href={userInfo.socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors">
-                      <Instagram className="w-4 h-4 text-gray-300" />
+                      <SiInstagram className="w-4 h-4 text-gray-300" />
                     </a>
                   )}
                   {userInfo?.socialLinks?.youtube && (
                     <a href={userInfo.socialLinks.youtube} target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors">
-                      <Youtube className="w-4 h-4 text-gray-300" />
+                      <SiYoutube className="w-4 h-4 text-gray-300" />
                     </a>
                   )}
                 </div>

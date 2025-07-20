@@ -1,13 +1,13 @@
-import React from 'react'
+import {useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import useDesignStore from '../Store/useDesignStore';
 
 const AddDesign = () => {
     // This component renders a form to add a new design
-    const [formData, setFormData] = React.useState({
+    const [formData, setFormData] = useState({
         title: '',
         description: '',
-        htmlFileUrl: '',
+        htmlFile: null,
         image: null,
         hbsfile: null,
     });
@@ -81,15 +81,15 @@ const AddDesign = () => {
                 />
             </div>
             <div className="mb-4">
-                <label className="block text-gray-700 mb-2">HTML File URL</label>
+                <label className="block text-gray-700 mb-2">HTML File</label>
                 <input
-                    type="text"
-                    value={formData.htmlFileUrl}
-                    onChange={(e) => setFormData({ ...formData, htmlFileUrl: e.target.value })}
+                    type="file"
+                    accept=".html"
+                    onChange={(e) => setFormData({ ...formData, htmlFile: e.target.files[0] })}
                     className="w-full px-3 py-2 border border-gray-300 rounded"
                     required
                 />
-    </div>
+            </div>
             <button
                 type="submit"
                 disabled={isCreatingDesign}
