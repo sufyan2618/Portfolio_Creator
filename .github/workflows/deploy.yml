@@ -1,51 +1,45 @@
-# .github/workflows/deploy.yml
-name: Deploy to Droplet
+name: Deploy to DigitalOcean
 
+# This action runs on every push to the main branch
 on:
   push:
     branches:
-      - master        # run on every push to main
+      - master
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Copy repo to droplet (rsync over SSH)
-        uses: burnett01/rsync-deployments@7.0.2
-        with:
-          switches: -avzr --delete
-          path: ./               # copy everything
-          remote_path: /var/www/portfolio_creator   # repo root on server
-          remote_host: ${{ secrets.SSH_HOST }}
-          remote_user: ${{ secrets.SSH_USER }}
-          remote_key: ${{ secrets.SSH_KEY }}
-
-      - name: Run build & restart on droplet
-        uses: appleboy/ssh-action@v1.0.3
+      - name: SSH into Droplet and deploy
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            set -e
+            # Navigate to your project directory
+            cd /var/www/your-app
 
-            cd /var/www/portfolio_creator
+            # Pull the latest changes from the main branch
+            echo "Pulling latest code from GitHub..."
+            git pull origin main
 
-            # Frontend --------------------------------------------------------
-            cd Frontend
-            npm ci
-            npm run build                 # outputs to /dist or /build
-            cp -r dist/* /var/www/your-frontend   # adjust if build dir is /build
-            cd ..
-
-            # Backend ---------------------------------------------------------
+            # Install backend dependencies and restart the application with PM2
+            echo "Deploying backend..."
             cd Backend
-            npm ci
-            pm2 restart backend           # name given when first started
-            cd ..
+            npm install
+            pm2 restart backend
+            pm2 save
+            
+            # Build and deploy the frontend application
+            echo "Deploying frontend..."
+            cd ../Frontend
+            npm install
+            npm run build
+            sudo cp -r dist/* /var/www/your-frontend/
 
-            echo "✅ Deployment finished"
+            # Restart Nginx to apply changes
+            echo "Restarting Nginx..."
+            sudo systemctl restart nginx
+
+            echo "Deployment finished successfully!"

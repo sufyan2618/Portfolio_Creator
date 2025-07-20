@@ -185,32 +185,11 @@ const PortfolioPreview = () => {
         {showMobileMenu && (
           <div className="absolute top-full left-0 right-0 bg-slate-800/95 backdrop-blur-sm border-b border-slate-700/50 p-4 space-y-3">
             <button
-              onClick={handleDownload}
-              disabled={downloadStatus === 'downloading'}
-              className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-medium transition-all duration-300 ${
-                downloadStatus === 'downloading'
-                  ? 'bg-purple-600/50 text-white cursor-not-allowed'
-                  : downloadStatus === 'success'
-                  ? 'bg-green-600 hover:bg-green-700 text-white'
-                  : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white'
-              }`}
+              onClick={handledeployRoute}
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-all duration-200"
             >
-              {downloadStatus === 'downloading' ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span className="text-sm">Downloading...</span>
-                </>
-              ) : downloadStatus === 'success' ? (
-                <>
-                  <Download className="w-4 h-4" />
-                  <span className="text-sm">Downloaded!</span>
-                </>
-              ) : (
-                <>
-                  <Download className="w-4 h-4" />
-                  <span className="text-sm">Download Portfolio</span>
-                </>
-              )}
+              <Code className="w-4 h-4" />
+              <span className="text-sm">Deploy Portfolio</span>
             </button>
           </div>
         )}

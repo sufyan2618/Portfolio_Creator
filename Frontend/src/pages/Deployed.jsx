@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 
 const Deployed = () => {
-    const { id, designId } = useParams();
+    const { userId, designId } = useParams();
     const navigate = useNavigate();
     const { GetPortfolioPage } = useAuthStore();
     const { isDeployingDesign, DeployDesign } = useDesignStore();
@@ -41,10 +41,10 @@ const Deployed = () => {
                     });
                 }, 800);
 
-                const htmlContent = await GetPortfolioPage(id, designId);
+                const htmlContent = await GetPortfolioPage(userId, designId);
                 setDeploymentProgress(30);
                 
-                const res = await DeployDesign(htmlContent,  id);
+                const res = await DeployDesign(htmlContent,  userId);
                 
                 clearInterval(progressInterval);
                 setDeploymentProgress(100);
@@ -62,7 +62,7 @@ const Deployed = () => {
         };
 
         performDeployment();
-    }, [id, designId, deployUrl, GetPortfolioPage, DeployDesign]);
+    }, [userId, designId, deployUrl, GetPortfolioPage, DeployDesign]);
 
     const copyToClipboard = async (text) => {
         try {
@@ -104,6 +104,7 @@ const Deployed = () => {
         setDeploymentProgress(0);
         // Component will re-run deployment effect
     };
+
 
     return (
         <div className="min-h-screen bg-slate-900 relative overflow-hidden">

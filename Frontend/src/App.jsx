@@ -61,7 +61,7 @@ function App() {
           <Route path="/portfolio_info" element={!userInfo ? <Layout> <InfoPage/> </Layout> : <Navigate to="/update_info"/>}/>
           <Route element={<InfoProtectedRoute/>}>
             <Route path="/portfolio_preview/:userId/:designId" element={<PortfolioPreview/>}/>
-            <Route path='/deployed/:userId/:designId' element={<Deployed/>}/>
+            <Route path='/deploy/:userId/:designId' element={<Deployed/>}/>
           </Route>
         </Route>
 

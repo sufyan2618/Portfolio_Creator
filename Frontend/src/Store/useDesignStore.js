@@ -58,7 +58,6 @@ const useDesignStore = create((set) => ({
                 htmlContent,
                 userId
             });
-            console.log("Deployment response:", response.data);
             toast.success("Design deployed successfully.");
             return response.data; 
 
