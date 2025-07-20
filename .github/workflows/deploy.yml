@@ -1,0 +1,51 @@
+# .github/workflows/deploy.yml
+name: Deploy to Droplet
+
+on:
+  push:
+    branches:
+      - main        # run on every push to main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Copy repo to droplet (rsync over SSH)
+        uses: burnett01/rsync-deployments@v2
+        with:
+          switches: -avzr --delete
+          path: ./               # copy everything
+          remote_path: /var/www/portfolio_creator   # repo root on server
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_user: ${{ secrets.SSH_USER }}
+          remote_key: ${{ secrets.SSH_KEY }}
+
+      - name: Run build & restart on droplet
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            set -e
+
+            cd /var/www/portfolio_creator
+
+            # Frontend --------------------------------------------------------
+            cd Frontend
+            npm ci
+            npm run build                 # outputs to /dist or /build
+            cp -r dist/* /var/www/your-frontend   # adjust if build dir is /build
+            cd ..
+
+            # Backend ---------------------------------------------------------
+            cd Backend
+            npm ci
+            pm2 restart backend           # name given when first started
+            cd ..
+
+            echo "✅ Deployment finished"
