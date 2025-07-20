@@ -1,11 +1,10 @@
 // deploy.controller.js
 import axios from 'axios';
 import JSZip from 'jszip';
-import Info from '../models/info.model.js'; // You only need this model
+import Info from '../models/info.model.js'; 
 
-// Helper function (your existing one is perfect)
+
 const waitForNetlifyDeployReady = async (siteId, deployId, NETLIFY_TOKEN, timeoutMs = 70000, pollInterval = 2000) => {
-    // ... no changes needed here, it's correct.
     const start = Date.now();
     let state = 'preparing';
 
@@ -34,7 +33,6 @@ export const deployToNetlify = async (req, res) => {
             });
         }
 
-        // ✅ FIX #1: Use findOne to query by the userId field
         const userInfo = await Info.findOne({ userId: userId });
         if (!userInfo) {
             return res.status(404).json({ success: false, error: 'User info not found.' });
@@ -43,16 +41,12 @@ export const deployToNetlify = async (req, res) => {
         // Generate a unique site name for Netlify
         const siteName = `portfolio-${userInfo.personalInfo.fullName.replace(/\s+/g, '-').toLowerCase()}-${Date.now()}`;
 
-        // ✅ FIX #2: Correct axios.post syntax
-        // The signature is axios.post(url, data, config).
         const siteResponse = await axios.post(
             'https://api.netlify.com/api/v1/sites',
-            { // This is the 'data' object
+            {
                 name: siteName,
-                // Note: custom_domain requires a paid Netlify plan.
-                // We will use the default .netlify.app URL for now.
             },
-            { // This is the 'config' object
+            { 
                 headers: {
                     'Authorization': `Bearer ${NETLIFY_TOKEN}`,
                     'Content-Type': 'application/json'
@@ -63,7 +57,7 @@ export const deployToNetlify = async (req, res) => {
         const siteId = siteResponse.data.id;
         const siteUrl = siteResponse.data.ssl_url || siteResponse.data.url;
 
-        // Step 2 & 3: ZIP content and Deploy (Your code here is already correct)
+
         const zip = new JSZip();
         zip.file('index.html', htmlContent);
         const headersFileContent = `/*\n  Content-Type: text/html; charset=utf-8`;
@@ -84,7 +78,6 @@ export const deployToNetlify = async (req, res) => {
         );
         const deployId = deployResponse.data.id;
 
-        // Step 4: Wait for deployment to be ready (Your code here is correct)
         const deployData = await waitForNetlifyDeployReady(siteId, deployId, NETLIFY_TOKEN);
 
         res.json({
