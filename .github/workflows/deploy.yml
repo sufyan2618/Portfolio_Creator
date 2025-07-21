@@ -17,29 +17,33 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            # Navigate to your project directory
-            cd /var/www/portfolio_creator
+          # Navigate to your project directory
+          cd /var/www/portfolio_creator
 
-            # Pull the latest changes from the main branch
-            echo "Pulling latest code from GitHub..."
-            git pull origin master
+          # CRITICAL FIX: Discard any local changes on the server
+          echo "Resetting local repository to match GitHub..."
+          git reset --hard origin/master
 
-            # Install backend dependencies and restart the application with PM2
-            echo "Deploying backend..."
-            cd Backend
-            npm install
-            pm2 restart backend
-            pm2 save
-            
-            # Build and deploy the frontend application
-            echo "Deploying frontend..."
-            cd ../Frontend
-            npm install
-            npm run build
-            sudo cp -r dist/* /var/www/your-frontend/
+          # Pull the latest changes from the master branch
+          echo "Pulling latest code from GitHub..."
+          git pull origin master
 
-            # Restart Nginx to apply changes
-            echo "Restarting Nginx..."
-            sudo systemctl restart nginx
+          # Install backend dependencies and restart the application with PM2
+          echo "Deploying backend..."
+          cd Backend
+          npm install
+          pm2 restart backend
+          pm2 save
+          
+          # Build and deploy the frontend application
+          echo "Deploying frontend..."
+          cd ../Frontend
+          npm install
+          npm run build
+          sudo cp -r dist/* /var/www/your-frontend/
 
-            echo "Deployment finished successfully!"
+          # Restart Nginx to apply changes
+          echo "Restarting Nginx..."
+          sudo systemctl restart nginx
+
+          echo "Deployment finished successfully!"
