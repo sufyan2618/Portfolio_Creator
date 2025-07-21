@@ -2,16 +2,31 @@ import Design from '../models/design.model.js';
 import { uploadToCloudinary } from '../lib/cloudinary.js';
 import uploadFile from '../util/uploadFile.js';
 import { deployToNetlify } from '../lib/deployToNetlify.js';
+import getOptimizedCloudinaryUrl from '../util/OptimizedCloudinaryUrl.js';
 
 // Handler to get all designs
 export const GetDesigns = async (req, res) => {
     try {
-        const designs = await Design.find({}).sort({ createdAt: -1 }).select('-__v'); // Exclude __v field
+        const designs = await Design.find({}).sort({ createdAt: -1 }).select('-__v'); 
         if (!designs || designs.length === 0) {
             return res.status(404).json({ message: 'No designs found' });
         }
+        const optimizedDesigns = designs.map(design => {
+            if (design.imageUrl) {
+              design.imageUrl = getOptimizedCloudinaryUrl(design.imageUrl, {
+                width: 800,
+                format: 'webp',
+                quality: 'auto',
+              });
+            }
+            return design;
+          });
 
-        res.status(200).json(designs);
+          console.log('Optimized designs:', optimizedDesigns);
+        await req.redisClient.set('designs', JSON.stringify(optimizedDesigns), {
+            EX: 3600,
+        })
+        res.status(200).json(optimizedDesigns);
     } catch (error) {
         console.error('Error fetching designs:', error);
         res.status(500).json({ message: 'Internal server error' });
