@@ -11,6 +11,8 @@ const Designs = () => {
     FetchDesigns();
   }, [FetchDesigns]);
 
+  console.log(designs)
+
   return (
     <div className="min-h-screen bg-slate-900">
       {/* Hero Section */}

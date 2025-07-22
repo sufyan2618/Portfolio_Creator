@@ -12,6 +12,10 @@ redisClient.on('error', (err) => console.error('Redis Client Error', err));
 await redisClient.connect();
 
 export const redisCache = async (req, res, next) => {
+    if(req.method !== 'GET') {
+        return next(); 
+    }
+
     const key = "designs"
 
     try {

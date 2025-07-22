@@ -4,7 +4,7 @@ import uploadFile from '../util/uploadFile.js';
 import { deployToNetlify } from '../lib/deployToNetlify.js';
 import getOptimizedCloudinaryUrl from '../util/OptimizedCloudinaryUrl.js';
 
-// Handler to get all designs
+
 export const GetDesigns = async (req, res) => {
     try {
         const designs = await Design.find({}).sort({ createdAt: -1 }).select('-__v'); 
@@ -80,6 +80,7 @@ export const AddDesign = async (req, res) => {
         });
 
         await newDesign.save();
+        await req.redisClient.del('designs'); 
 
         res.status(201).json({ message: 'Design added successfully', design: newDesign });
 

@@ -1,4 +1,4 @@
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import generateToken from "../lib/token.js";
 import Admin from "../models/admin.model.js";
 
