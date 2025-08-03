@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { Menu, X, User, LogOut, Settings, Home, Palette, Info, Sparkles, Mail } from 'lucide-react'
 import useAuthStore from '../Store/useAuthStore'
 import { useNavigate } from 'react-router-dom'
-import HeaderSkeleton from './skeletons/HeaderSkeleton'
+import HeaderAuthkeleton from './skeletons/HeaderAuthSkeleton'
 
 const Header = () => {
     const { authUser, Logout, userInfo, isLoggingOut, isCheckingAuth } = useAuthStore()
@@ -73,9 +73,9 @@ const Header = () => {
             )}
         </Link>
     )
-    if (isCheckingAuth) {
-        return <HeaderSkeleton />
-    }
+    // if (isCheckingAuth) {
+    //     return <HeaderSkeleton />
+    // }
 
 
     return (
@@ -103,7 +103,7 @@ const Header = () => {
 
                     {/* Desktop Auth Section */}
                     <div className="hidden md:flex items-center space-x-4">
-                        {isCheckingAuth ? ( <div>Loading</div>): 
+                        {isCheckingAuth ? (<HeaderAuthkeleton/>): 
                         authUser ? (
                             <div className="relative profile-dropdown">
                                 <button

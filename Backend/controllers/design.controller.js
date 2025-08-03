@@ -69,7 +69,7 @@ export const AddDesign = async (req, res) => {
 
         const newDesignId = `design${newCount}`;
 
-        // Create the new design document with the correct imageUrl string
+
         const newDesign = new Design({
             designId: newDesignId,
             title,
@@ -85,7 +85,6 @@ export const AddDesign = async (req, res) => {
         res.status(201).json({ message: 'Design added successfully', design: newDesign });
 
     } catch (error) {
-        // This log now provides much more detail for debugging
         console.error('Error adding design:', error);
         res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }

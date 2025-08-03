@@ -19,16 +19,16 @@ const DesignCard = ({ design }) => {
   };
 
   const handleDynamicRouting = () => {
-    if (!authUser || !userInfo) {
-      toast.error('Please login and fill your information first to use this design');
-      return;
-    }
     navigate(`/portfolio_preview/${id}/${design.designId}`);
   };
 
   const handleLoginRouting = () => {
     navigate('/signin');
   };
+
+  const handleInfoRouting = () => {
+    navigate('/portfolio_info');
+  }
 
   return (
     <div className="group bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl overflow-hidden hover:bg-slate-800/80 transition-all duration-300 hover:border-purple-500/50 hover:shadow-xl hover:shadow-purple-500/10 transform hover:-translate-y-1">
@@ -75,23 +75,32 @@ const DesignCard = ({ design }) => {
             <Eye className="w-4 h-4" />
             View Design
           </button>
-          
-          {authUser ? (
-            <button
-              onClick={handleDynamicRouting}
-              className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2.5 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200 flex items-center justify-center gap-2 font-medium shadow-lg hover:shadow-purple-500/25"
-            >
-              <Paintbrush className="w-4 h-4" />
-              Use This Design
-            </button>
+          {authUser ?  (
+            userInfo ? (
+              <button
+            onClick={handleDynamicRouting}
+            className="flex-1 bg-purple-600 border border-purple-500 text-white px-2 py-2.5 rounded-lg hover:bg-purple-500 transition-all duration-200 flex items-center justify-center gap-2 font-medium"
+          >
+            <LogIn className="w-4 h-4" />
+            Use this Design
+          </button>
+            ) : (
+              <button
+            onClick={handleInfoRouting}
+            className="flex-1 bg-purple-600 border border-purple-500 text-white px-2 py-2.5 rounded-lg hover:bg-purple-500 transition-all duration-200 flex items-center justify-center gap-2 font-medium"
+          >
+            <LogIn className="w-4 h-4" />
+            Fill your info to use
+          </button>
+            )
           ) : (
             <button
-              onClick={handleLoginRouting}
-              className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2.5 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 flex items-center justify-center gap-2 font-medium shadow-lg hover:shadow-blue-500/25"
-            >
-              <LogIn className="w-4 h-4" />
-              Login to Use
-            </button>
+            onClick={handleLoginRouting}
+            className="flex-1 bg-purple-600 border border-purple-500 text-white px-2 py-2.5 rounded-lg hover:bg-purple-500 transition-all duration-200 flex items-center justify-center gap-2 font-medium"
+          >
+            <LogIn className="w-4 h-4" />
+            Login to Use
+          </button>
           )}
         </div>
 
